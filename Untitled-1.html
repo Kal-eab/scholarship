@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScholarsPath — Scholarship Agency</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #0a1628;
+        --deep: #0f2040;
+        --gold: #c8a94a;
+        --gold-light: #e8c96a;
+        --cream: #faf6ef;
+        --muted: #8a9ab5;
+        --card-bg: #111d33;
+        --border: rgba(200, 169, 74, 0.2);
+        --text: #e8edf5;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--navy);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Noise overlay */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.2rem 4rem;
+        background: rgba(10, 22, 40, 0.85);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+      }
+      .logo-text {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--cream);
+        letter-spacing: -0.02em;
+      }
+      .logo-text span {
+        color: var(--gold);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .nav-links a:hover {
+        color: var(--cream);
+      }
+
+      .nav-cta {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--navy) !important;
+        padding: 0.55rem 1.4rem;
+        border-radius: 6px;
+        font-weight: 600 !important;
+        transition: opacity 0.2s !important;
+      }
+      .nav-cta:hover {
+        opacity: 0.85;
+      }
+
+      /* ─── HERO ─── */
+      .hero {
+        position: relative;
+        padding: 7rem 4rem 5rem;
+        overflow: hidden;
+      }
+
+      .hero-glow {
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(200, 169, 74, 0.12) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero-glow2 {
+        position: absolute;
+        bottom: -200px;
+        left: -100px;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(30, 80, 160, 0.2) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(200, 169, 74, 0.12);
+        border: 1px solid var(--border);
+        color: var(--gold);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        margin-bottom: 1.5rem;
+        animation: fadeUp 0.6s ease both;
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        max-width: 820px;
+        animation: fadeUp 0.7s 0.1s ease both;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--gold);
+      }
+
+      .hero-sub {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        color: var(--muted);
+        max-width: 520px;
+        line-height: 1.7;
+        animation: fadeUp 0.7s 0.2s ease both;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.5rem;
+        animation: fadeUp 0.7s 0.3s ease both;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--navy);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 0.85rem 2rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        box-shadow: 0 4px 24px rgba(200, 169, 74, 0.3);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(200, 169, 74, 0.4);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.85rem 2rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--gold);
+        background: rgba(200, 169, 74, 0.05);
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: 3rem;
+        margin-top: 4rem;
+        animation: fadeUp 0.7s 0.4s ease both;
+      }
+      .stat-num {
+        font-family: "Playfair Display", serif;
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--gold);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-top: 0.3rem;
+        letter-spacing: 0.04em;
+      }
+
+      /* ─── FILTERS ─── */
+      .section {
+        padding: 5rem 4rem;
+        position: relative;
+        z-index: 1;
+      }
+      .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2.4rem;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .section-title span {
+        color: var(--gold);
+      }
+
+      .filters {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .filter-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--muted);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.45rem 1.1rem;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .filter-btn.active,
+      .filter-btn:hover {
+        background: rgba(200, 169, 74, 0.15);
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      /* ─── SEARCH ─── */
+      .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 2.5rem;
+        max-width: 520px;
+      }
+      .search-bar input {
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        flex: 1;
+      }
+      .search-bar input::placeholder {
+        color: var(--muted);
+      }
+      .search-icon {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      /* ─── SCHOLARSHIP CARDS ─── */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 1.75rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.25s,
+          border-color 0.25s,
+          box-shadow 0.25s;
+        animation: fadeUp 0.5s ease both;
+        cursor: pointer;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        border-color: var(--border);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.25rem;
+      }
+      .card-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+
+      .badge {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.7rem;
+        border-radius: 100px;
+      }
+      .badge-new {
+        background: rgba(74, 200, 120, 0.15);
+        color: #4ac878;
+        border: 1px solid rgba(74, 200, 120, 0.3);
+      }
+      .badge-hot {
+        background: rgba(200, 100, 74, 0.15);
+        color: #e8784a;
+        border: 1px solid rgba(200, 100, 74, 0.3);
+      }
+      .badge-deadline {
+        background: rgba(200, 169, 74, 0.15);
+        color: var(--gold);
+        border: 1px solid var(--border);
+      }
+      .badge-stem {
+        background: rgba(74, 140, 200, 0.15);
+        color: #6ab4e8;
+        border: 1px solid rgba(74, 140, 200, 0.3);
+      }
+
+      .card-org {
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 0.85rem;
+      }
+      .card-desc {
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 1.25rem;
+      }
+
+      .card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+      }
+      .meta-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.78rem;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .award-amount {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--gold);
+      }
+      .award-label {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 0.1rem;
+      }
+
+      .apply-btn {
+        background: rgba(200, 169, 74, 0.12);
+        border: 1px solid var(--border);
+        color: var(--gold);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.55rem 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .apply-btn:hover {
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--navy);
+        border-color: transparent;
+      }
+
+      /* Featured card */
+      .card-featured {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #0d1f3a 0%, #142440 100%);
+        border-color: var(--border);
+      }
+      .card-featured .card-title {
+        font-size: 1.5rem;
+      }
+
+      /* ─── CATEGORIES SECTION ─── */
+      .cats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+      }
+      .cat-card {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        padding: 1.5rem 1.25rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .cat-card:hover {
+        border-color: var(--border);
+        background: rgba(200, 169, 74, 0.06);
+        transform: translateY(-3px);
+      }
+      .cat-icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+      }
+      .cat-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+      }
+      .cat-count {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      /* ─── CTA BANNER ─── */
+      .cta-banner {
+        margin: 2rem 4rem 5rem;
+        background: linear-gradient(135deg, #1a2f50 0%, #0f2040 100%);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-banner::after {
+        content: "🎓";
+        position: absolute;
+        right: 6rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 8rem;
+        opacity: 0.08;
+        pointer-events: none;
+      }
+      .cta-content h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+      .cta-content p {
+        color: var(--muted);
+        line-height: 1.6;
+        max-width: 420px;
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 3rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+      .footer-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--cream);
+      }
+      .footer-logo span {
+        color: var(--gold);
+      }
+      .footer-copy {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .footer-links a {
+        font-size: 0.82rem;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--gold);
+      }
+
+      /* ─── ANIMATIONS ─── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .card:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .card:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .card:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .card:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .card:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+      .card:nth-child(6) {
+        animation-delay: 0.3s;
+      }
+
+      /* ─── MODAL ─── */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 12, 25, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+      .modal-overlay.open {
+        display: flex;
+      }
+      .modal {
+        background: var(--deep);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem;
+        max-width: 540px;
+        width: 100%;
+        position: relative;
+        animation: fadeUp 0.3s ease;
+      }
+      .modal-close {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.25rem;
+        background: rgba(255, 255, 255, 0.07);
+        border: none;
+        color: var(--muted);
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-close:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--text);
+      }
+      .modal-tag {
+        font-size: 0.75rem;
+        color: var(--gold);
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.6rem;
+      }
+      .modal-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .modal-amount {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        color: var(--gold);
+        font-weight: 900;
+        margin-bottom: 1.25rem;
+      }
+      .modal-desc {
+        color: var(--muted);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+        font-size: 0.92rem;
+      }
+      .modal-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+      }
+      .detail-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+      }
+      .detail-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.25rem;
+      }
+      .detail-value {
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+      .modal-apply {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, var(--gold), var(--gold-light));
+        color: var(--navy);
+        font-family: "DM Sans", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      .modal-apply:hover {
+        opacity: 0.9;
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem 1.5rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero,
+        .section {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+        .card-featured {
+          grid-column: span 1;
+        }
+        .cta-banner {
+          padding: 2rem;
+          margin: 1rem 1.5rem 3rem;
+        }
+        footer {
+          padding: 2rem 1.5rem;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .hero-stats {
+          gap: 1.5rem;
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="logo">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">Scholars<span>Path</span></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Scholarships</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">How It Works</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#" class="nav-cta">Apply Now</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-glow2"></div>
+      <div class="hero-tag">✦ 2024–2025 Scholarship Cycle Open</div>
+      <h1>Your Future Deserves the <em>Right</em> Funding</h1>
+      <p class="hero-sub">
+        ScholarsPath connects ambitious students with life-changing scholarship
+        opportunities from top institutions around the world.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary">Browse Scholarships →</button>
+        <button class="btn-outline">Learn How It Works</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">$4.2M+</div>
+          <div class="stat-label">Total Awards Available</div>
+        </div>
+        <div>
+          <div class="stat-num">320+</div>
+          <div class="stat-label">Active Scholarships</div>
+        </div>
+        <div>
+          <div class="stat-num">12,000+</div>
+          <div class="stat-label">Students Funded</div>
+        </div>
+        <div>
+          <div class="stat-num">94%</div>
+          <div class="stat-label">Application Success Rate</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHOLARSHIPS -->
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Featured <span>Scholarships</span></div>
+        </div>
+        <div class="filters">
+          <button class="filter-btn active">All</button>
+          <button class="filter-btn">STEM</button>
+          <button class="filter-btn">Arts</button>
+          <button class="filter-btn">Business</button>
+          <button class="filter-btn">Undergraduate</button>
+          <button class="filter-btn">Postgraduate</button>
+        </div>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          placeholder="Search scholarships, fields, institutions..."
+        />
+      </div>
+
+      <div class="cards-grid">
+        <!-- Featured Card -->
+        <div class="card card-featured" onclick="openModal('global')">
+          <div class="card-top">
+            <div class="card-logo" style="background: rgba(200, 169, 74, 0.15)">
+              🌍
+            </div>
+            <span class="badge badge-hot">🔥 Hot</span>
+          </div>
+          <div class="card-org">Global Excellence Foundation</div>
+          <div class="card-title">
+            International Merit Excellence Scholarship 2025
+          </div>
+          <div class="card-desc">
+            Full-ride scholarship for outstanding students demonstrating
+            academic excellence, leadership, and community impact. Open to
+            students from all nationalities pursuing undergraduate or
+            postgraduate degrees.
+          </div>
+          <div class="card-meta">
+            <span class="meta-tag">🎓 All Fields</span>
+            <span class="meta-tag">🌐 International</span>
+            <span class="meta-tag">📅 Deadline: Mar 31, 2025</span>
+            <span class="meta-tag">📋 GPA 3.8+</span>
+          </div>
+          <div class="card-footer">
+            <div>
+              <div class="award-amount">$50,000</div>
+              <div class="award-label">Full Academic Year</div>
+            </div>
+            <button class="apply-btn">View & Apply →</button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card" onclick="openModal('stem')">
+          <div class="card-top">
+            <div class="card-logo" style="background: rgba(74, 140, 200, 0.15)">
+              🔬
+            </div>
+            <span class="badge badge-stem">STEM</span>
+          </div>
+          <div class="card-org">TechFuture Institute</div>
+          <div class="card-title">Women in Engineering Scholarship</div>
+          <div class="card-desc">
+            Empowering the next generation of female engineers with financial
+            support and mentorship access.
+          </div>
+          <div class="card-meta">
+            <span class="meta-tag">⚙️ Engineering</span>
+            <span class="meta-tag">👩 Women Only</span>
+            <span class="meta-tag">📅 Apr 15, 2025</span>
+          </div>
+          <div class="card-footer">
+            <div>
+              <div class="award-amount">$18,000</div>
+              <div class="award-label">Per Year</div>
+            </div>
+            <button class="apply-btn">Apply →</button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card" onclick="openModal('arts')">
+          <div class="card-top">
+            <div class="card-logo" style="background: rgba(200, 74, 150, 0.15)">
+              🎨
+            </div>
+            <span class="badge badge-new">✨ New</span>
+          </div>
+          <div class="card-org">Creative Arts Foundation</div>
+          <div class="card-title">Emerging Artists Global Grant</div>
+          <div class="card-desc">
+            Supporting visionary young artists across painting, digital arts,
+            sculpture, and multimedia. Portfolio-based selection.
+          </div>
+          <div class="card-meta">
+            <span class="meta-tag">🎭 Fine Arts</span>
+            <span class="meta-tag">🌎 Global</span>
+            <span class="meta-tag">📅 May 1, 2025</span>
+          </div>
+          <div class="card-footer">
+            <div>
+              <div class="award-amount">$12,500</div>
+              <div class="award-label">One-Time Grant</div>
+            </div>
+            <button class="apply-btn">Apply →</button>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card" onclick="openModal('business')">
+          <div class="card-top">
+            <div class="card-logo" style="background: rgba(74, 200, 120, 0.15)">
+              💼
+            </div>
+            <span class="badge badge-deadline">⏳ Closing Soon</span>
+          </div>
+          <div class="card-org">Leaders of Tomorrow Fund</div>
+          <div class="card-title">Future Business Leaders Scholarship</div>
+          <div class="card-desc">
+            For ambitious undergraduate business students with a demonstrated
+            record of entrepreneurship and leadership.
+          </div>
+          <div class="card-meta">
+            <span class="meta-tag">📊 Business</span>
+            <span class="meta-tag">🎓 Undergraduate</span>
+            <span class="meta-tag">📅 Feb 28, 2025</span>
+          </div>
+          <div class="card-footer">
+            <div>
+              <div class="award-amount">$22,000</div>
+              <div class="award-label">Per Year</div>
+            </div>
+            <button class="apply-btn">Apply →</button>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="card" onclick="openModal('medicine')">
+          <div class="card-top">
+            <div class="card-logo" style="background: rgba(200, 100, 74, 0.15)">
+              🏥
+            </div>
+            <span class="badge badge-new">✨ New</span>
+          </div>
+          <div class="card-org">HealthCare Tomorrow</div>
+          <div class="card-title">Medical Sciences Excellence Award</div>
+          <div class="card-desc">
+            Supporting the next generation of doctors, researchers, and
+            healthcare innovators making a difference in global health.
+          </div>
+          <div class="card-meta">
+            <span class="meta-tag">⚕️ Medicine</span>
+            <span class="meta-tag">🏫 Postgraduate</span>
+            <span class="meta-tag">📅 Jun 30, 2025</span>
+          </div>
+          <div class="card-footer">
+            <div>
+              <div class="award-amount">$35,000</div>
+              <div class="award-label">Full Program</div>
+            </div>
+            <button class="apply-btn">Apply →</button>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="card" onclick="openModal('law')">
+          <div class="card-top">
+            <div class="card-logo" style="background: rgba(180, 74, 200, 0.15)">
+              ⚖️
+            </div>
+            <span class="badge badge-stem">Law</span>
+          </div>
+          <div class="card-org">Justice & Equity Institute</div>
+          <div class="card-title">Social Justice Law Fellowship</div>
+          <div class="card-desc">
+            For law students committed to human rights, public interest law, and
+            creating equitable legal systems.
+          </div>
+          <div class="card-meta">
+            <span class="meta-tag">⚖️ Law</span>
+            <span class="meta-tag">🤝 Public Interest</span>
+            <span class="meta-tag">📅 Apr 30, 2025</span>
+          </div>
+          <div class="card-footer">
+            <div>
+              <div class="award-amount">$28,000</div>
+              <div class="award-label">Per Year</div>
+            </div>
+            <button class="apply-btn">Apply →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" style="padding-top: 0">
+      <div class="section-title" style="margin-bottom: 1.75rem">
+        Browse by <span>Category</span>
+      </div>
+      <div class="cats-grid">
+        <div class="cat-card">
+          <div class="cat-icon">🔬</div>
+          <div class="cat-name">STEM</div>
+          <div class="cat-count">84 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🎨</div>
+          <div class="cat-name">Arts & Design</div>
+          <div class="cat-count">41 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">💼</div>
+          <div class="cat-name">Business</div>
+          <div class="cat-count">56 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⚕️</div>
+          <div class="cat-name">Medicine</div>
+          <div class="cat-count">38 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⚖️</div>
+          <div class="cat-name">Law</div>
+          <div class="cat-count">29 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🌱</div>
+          <div class="cat-name">Environment</div>
+          <div class="cat-count">22 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🧠</div>
+          <div class="cat-name">Social Sciences</div>
+          <div class="cat-count">47 scholarships</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">✈️</div>
+          <div class="cat-name">International</div>
+          <div class="cat-count">63 scholarships</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <div class="cta-banner">
+      <div class="cta-content">
+        <h2>Not sure where to start?</h2>
+        <p>
+          Let us match you with the right scholarships. Take a 2-minute quiz and
+          we'll recommend the best opportunities for your profile.
+        </p>
+        <div
+          style="margin-top: 1.75rem; display: flex; gap: 1rem; flex-wrap: wrap"
+        >
+          <button class="btn-primary">Find My Scholarships →</button>
+          <button class="btn-outline">Talk to an Advisor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>
+        <div class="footer-logo">Scholars<span>Path</span></div>
+        <div class="footer-copy" style="margin-top: 0.4rem">
+          © 2025 ScholarsPath Agency. All rights reserved.
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+        <a href="#">Post a Scholarship</a>
+      </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+      <div class="modal" id="modal-content">
+        <button
+          class="modal-close"
+          onclick="document.getElementById('modal').classList.remove('open')"
+        >
+          ✕
+        </button>
+        <div class="modal-tag" id="m-tag"></div>
+        <div class="modal-title" id="m-title"></div>
+        <div class="modal-amount" id="m-amount"></div>
+        <div class="modal-desc" id="m-desc"></div>
+        <div class="modal-details" id="m-details"></div>
+        <button class="modal-apply">Submit Application →</button>
+      </div>
+    </div>
+
+    <script>
+      const scholarships = {
+        global: {
+          tag: "🌍 Global Excellence Foundation",
+          title: "International Merit Excellence Scholarship 2025",
+          amount: "$50,000",
+          desc: "Full-ride scholarship for outstanding students demonstrating academic excellence, leadership, and community impact. Open to students from all nationalities pursuing undergraduate or postgraduate degrees at any accredited institution worldwide.",
+          details: [
+            { label: "Deadline", value: "March 31, 2025" },
+            { label: "Level", value: "UG & Postgraduate" },
+            { label: "GPA Required", value: "3.8 or higher" },
+            { label: "Nationality", value: "All Countries" },
+            { label: "Duration", value: "Full Academic Year" },
+            { label: "Award Type", value: "Full Tuition + Living" },
+          ],
+        },
+        stem: {
+          tag: "🔬 TechFuture Institute",
+          title: "Women in Engineering Scholarship",
+          amount: "$18,000",
+          desc: "Empowering the next generation of female engineers with financial support, mentorship, and industry connections. Applicants must be enrolled or applying to an accredited engineering program.",
+          details: [
+            { label: "Deadline", value: "April 15, 2025" },
+            { label: "Level", value: "Undergraduate" },
+            { label: "Field", value: "Engineering" },
+            { label: "Eligibility", value: "Women Only" },
+            { label: "Duration", value: "Per Year" },
+            { label: "Award Type", value: "Partial Tuition" },
+          ],
+        },
+        arts: {
+          tag: "🎨 Creative Arts Foundation",
+          title: "Emerging Artists Global Grant",
+          amount: "$12,500",
+          desc: "Supporting visionary young artists across painting, digital arts, sculpture, and multimedia. Selection is portfolio-based with emphasis on originality, technical skill, and artistic vision.",
+          details: [
+            { label: "Deadline", value: "May 1, 2025" },
+            { label: "Level", value: "All Levels" },
+            { label: "Field", value: "Fine Arts" },
+            { label: "Nationality", value: "Global" },
+            { label: "Duration", value: "One-Time" },
+            { label: "Award Type", value: "Research Grant" },
+          ],
+        },
+        business: {
+          tag: "💼 Leaders of Tomorrow Fund",
+          title: "Future Business Leaders Scholarship",
+          amount: "$22,000",
+          desc: "For ambitious undergraduate business students with a demonstrated record of entrepreneurship and leadership. Includes mentorship from industry executives and networking events.",
+          details: [
+            { label: "Deadline", value: "Feb 28, 2025" },
+            { label: "Level", value: "Undergraduate" },
+            { label: "Field", value: "Business / MBA" },
+            { label: "GPA Required", value: "3.5 or higher" },
+            { label: "Duration", value: "Per Year" },
+            { label: "Award Type", value: "Tuition + Stipend" },
+          ],
+        },
+        medicine: {
+          tag: "🏥 HealthCare Tomorrow",
+          title: "Medical Sciences Excellence Award",
+          amount: "$35,000",
+          desc: "Supporting the next generation of doctors, researchers, and healthcare innovators. Applicants must demonstrate academic excellence and a commitment to advancing global health outcomes.",
+          details: [
+            { label: "Deadline", value: "June 30, 2025" },
+            { label: "Level", value: "Postgraduate" },
+            { label: "Field", value: "Medicine / Health" },
+            { label: "GPA Required", value: "3.7 or higher" },
+            { label: "Duration", value: "Full Program" },
+            { label: "Award Type", value: "Full Scholarship" },
+          ],
+        },
+        law: {
+          tag: "⚖️ Justice & Equity Institute",
+          title: "Social Justice Law Fellowship",
+          amount: "$28,000",
+          desc: "For law students committed to human rights, public interest law, and creating equitable legal systems. Fellows receive funding, mentorship, and placement in partner organizations.",
+          details: [
+            { label: "Deadline", value: "April 30, 2025" },
+            { label: "Level", value: "Law School" },
+            { label: "Field", value: "Law / Public Interest" },
+            { label: "Commitment", value: "Essay Required" },
+            { label: "Duration", value: "Per Year" },
+            { label: "Award Type", value: "Fellowship" },
+          ],
+        },
+      };
+
+      function openModal(id) {
+        const s = scholarships[id];
+        if (!s) return;
+        document.getElementById("m-tag").textContent = s.tag;
+        document.getElementById("m-title").textContent = s.title;
+        document.getElementById("m-amount").textContent = s.amount;
+        document.getElementById("m-desc").textContent = s.desc;
+        document.getElementById("m-details").innerHTML = s.details
+          .map(
+            (d) =>
+              `<div class="detail-item"><div class="detail-label">${d.label}</div><div class="detail-value">${d.value}</div></div>`,
+          )
+          .join("");
+        document.getElementById("modal").classList.add("open");
+      }
+
+      function closeModal(e) {
+        if (e.target === document.getElementById("modal"))
+          document.getElementById("modal").classList.remove("open");
+      }
+
+      // Filter buttons
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>
