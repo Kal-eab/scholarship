@@ -1,1668 +1,546 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JS Practice — 100 Exercises</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap");
-      :root {
-        --bg: #0a0a0f;
-        --surface: #111118;
-        --card: #16161f;
-        --border: #2a2a3a;
-        --accent: #00ff88;
-        --accent2: #ff6b35;
-        --accent3: #a78bfa;
-        --text: #e8e8f0;
-        --muted: #6b6b80;
-        --easy: #00ff88;
-        --medium: #ffb347;
-        --hard: #ff6b6b;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Syne", sans-serif;
-        min-height: 100vh;
-      }
-      header {
-        padding: 20px 40px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: sticky;
-        top: 0;
-        background: rgba(10, 10, 15, 0.97);
-        backdrop-filter: blur(10px);
-        z-index: 100;
-      }
-      .logo {
-        font-size: 20px;
-        font-weight: 800;
-        color: var(--accent);
-      }
-      .logo span {
-        color: var(--text);
-      }
-      .hstats {
-        display: flex;
-        gap: 20px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 13px;
-      }
-      .hstat {
-        color: var(--muted);
-      }
-      .hstat b {
-        color: var(--accent);
-      }
-      .hero {
-        padding: 50px 40px 30px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-      .hero h1 {
-        font-size: clamp(32px, 5vw, 60px);
-        font-weight: 800;
-        letter-spacing: -2px;
-        line-height: 1.1;
-        margin-bottom: 14px;
-      }
-      .hero h1 .g {
-        color: var(--accent);
-      }
-      .hero h1 .o {
-        color: var(--accent2);
-      }
-      .hero p {
-        color: var(--muted);
-        font-size: 15px;
-        max-width: 520px;
-        line-height: 1.7;
-      }
-      .prog-wrap {
-        padding: 20px 40px;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-        background: var(--surface);
-      }
-      .prog-inner {
-        max-width: 1120px;
-        margin: 0 auto;
-      }
-      .prog-top {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        font-size: 13px;
-      }
-      .prog-label {
-        color: var(--muted);
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-      .prog-num {
-        font-family: "JetBrains Mono", monospace;
-        color: var(--accent);
-      }
-      .prog-bar {
-        height: 6px;
-        background: var(--border);
-        border-radius: 100px;
-        overflow: hidden;
-      }
-      .prog-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), var(--accent3));
-        border-radius: 100px;
-        transition: width 0.4s ease;
-        width: 0%;
-      }
-      .filters {
-        padding: 20px 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-      .flabel {
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-      .fbtn {
-        padding: 7px 14px;
-        border-radius: 100px;
-        border: 1px solid var(--border);
-        background: transparent;
-        color: var(--muted);
-        font-family: "Syne", sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .fbtn:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-      .fbtn.active {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #000;
-      }
-      .search {
-        padding: 7px 14px;
-        border-radius: 100px;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        color: var(--text);
-        font-family: "JetBrains Mono", monospace;
-        font-size: 12px;
-        outline: none;
-        width: 220px;
-        margin-left: auto;
-      }
-      .search:focus {
-        border-color: var(--accent);
-      }
-      .search::placeholder {
-        color: var(--muted);
-      }
-      .main {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 40px 80px;
-      }
-      .chapter {
-        margin-bottom: 44px;
-      }
-      .ch-header {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 18px;
-        padding-bottom: 14px;
-        border-bottom: 1px solid var(--border);
-      }
-      .ch-num {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--accent);
-        background: rgba(0, 255, 136, 0.1);
-        padding: 3px 8px;
-        border-radius: 5px;
-        font-weight: 700;
-      }
-      .ch-title {
-        font-size: 18px;
-        font-weight: 800;
-        letter-spacing: -0.3px;
-      }
-      .ch-count {
-        margin-left: auto;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--muted);
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 10px;
-      }
-      .card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 18px;
-        cursor: pointer;
-        transition: all 0.2s;
-        position: relative;
-        overflow: hidden;
-      }
-      .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 3px;
-        height: 100%;
-        background: var(--border);
-        transition: background 0.2s;
-      }
-      .card:hover {
-        border-color: rgba(0, 255, 136, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      }
-      .card:hover::before {
-        background: var(--accent);
-      }
-      .card.done {
-        opacity: 0.55;
-      }
-      .card.done::before {
-        background: var(--accent);
-      }
-      .ctop {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 8px;
-      }
-      .cnum {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--muted);
-      }
-      .diff {
-        font-size: 10px;
-        font-weight: 700;
-        padding: 2px 7px;
-        border-radius: 100px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .de {
-        background: rgba(0, 255, 136, 0.12);
-        color: var(--easy);
-      }
-      .dm {
-        background: rgba(255, 179, 71, 0.12);
-        color: var(--medium);
-      }
-      .dh {
-        background: rgba(255, 107, 107, 0.12);
-        color: var(--hard);
-      }
-      .ctitle {
-        font-size: 13px;
-        font-weight: 700;
-        margin-bottom: 5px;
-        line-height: 1.3;
-      }
-      .cdesc {
-        font-size: 11px;
-        color: var(--muted);
-        line-height: 1.5;
-        margin-bottom: 10px;
-      }
-      .cbot {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .ctopic {
-        font-size: 10px;
-        color: var(--accent3);
-        font-family: "JetBrains Mono", monospace;
-      }
-      .ccheck {
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        border: 2px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        transition: all 0.2s;
-      }
-      .card.done .ccheck {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #000;
-      }
-      .overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.88);
-        backdrop-filter: blur(8px);
-        z-index: 1000;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-      .overlay.open {
-        display: flex;
-      }
-      .modal {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        width: 100%;
-        max-width: 640px;
-        max-height: 88vh;
-        overflow-y: auto;
-        padding: 32px;
-        position: relative;
-      }
-      .mclose {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        background: var(--border);
-        border: none;
-        color: var(--text);
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .mclose:hover {
-        background: var(--accent2);
-      }
-      .mnum {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: var(--accent);
-        margin-bottom: 6px;
-      }
-      .mtitle {
-        font-size: 22px;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        margin-bottom: 14px;
-        line-height: 1.2;
-      }
-      .msub {
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--muted);
-        margin-bottom: 6px;
-        margin-top: 16px;
-      }
-      .mdesc {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.7;
-        margin-bottom: 14px;
-      }
-      .mcode {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 14px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        color: #a8ff78;
-        line-height: 1.6;
-        margin-bottom: 14px;
-        white-space: pre-wrap;
-        overflow-x: auto;
-      }
-      .mhint {
-        background: rgba(167, 139, 250, 0.1);
-        border: 1px solid rgba(167, 139, 250, 0.25);
-        border-radius: 8px;
-        padding: 12px 14px;
-        font-size: 12px;
-        color: var(--accent3);
-        line-height: 1.6;
-      }
-      .mactions {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-      }
-      .bdone {
-        flex: 1;
-        padding: 13px;
-        background: var(--accent);
-        color: #000;
-        border: none;
-        border-radius: 8px;
-        font-family: "Syne", sans-serif;
-        font-size: 13px;
-        font-weight: 800;
-        cursor: pointer;
-      }
-      .bdone:hover {
-        opacity: 0.85;
-      }
-      .bskip {
-        padding: 13px 18px;
-        background: transparent;
-        color: var(--muted);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        font-family: "Syne", sans-serif;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-      .bskip:hover {
-        border-color: var(--accent2);
-        color: var(--accent2);
-      }
-      .empty {
-        text-align: center;
-        padding: 60px 20px;
-        color: var(--muted);
-      }
-      .empty-icon {
-        font-size: 40px;
-        margin-bottom: 12px;
-      }
-      @media (max-width: 768px) {
-        header {
-          padding: 14px 18px;
-        }
-        .hero,
-        .filters,
-        .main {
-          padding-left: 18px;
-          padding-right: 18px;
-        }
-        .grid {
-          grid-template-columns: 1fr;
-        }
-        .search {
-          margin-left: 0;
-          width: 100%;
-        }
-        .hstats {
-          display: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <div class="logo">JS<span>Practice</span></div>
-      <div class="hstats">
-        <div class="hstat">Total: <b>100</b></div>
-        <div class="hstat">Done: <b id="hd">0</b></div>
-        <div class="hstat">Progress: <b id="hpct">0%</b></div>
-      </div>
-    </header>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Matt Station — Used MacBook & iPhone | Shenzhen</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0e0b0b;
+  --surface:#161010;
+  --card:#1c1212;
+  --card2:#211515;
+  --border:#2e1a1a;
+  --border2:#3d2020;
+  --red:#e8302a;
+  --red2:#ff5046;
+  --gold:#f0b429;
+  --text:#f5eded;
+  --muted:#7a6060;
+  --dim:#4a2f2f;
+}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-    <div class="hero">
-      <h1>
-        100 <span class="g">JavaScript</span><br />Exercises<span class="o"
-          >.</span
-        >
-      </h1>
-      <p>
-        From your first console.log to async/await. Each exercise covers a key
-        concept. Built for intermediate learners who want to understand deeply.
-      </p>
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(14,11,11,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+.logo-badge{width:34px;height:34px;border-radius:9px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 18px rgba(232,48,42,0.45);}
+.logo-name{font-size:17px;font-weight:700;letter-spacing:-.02em;color:var(--text);}
+.logo-name span{color:var(--red2);}
+.logo-sub{font-size:10px;color:var(--muted);margin-top:1px;letter-spacing:.05em;}
+.nav-tabs{display:flex;gap:3px;list-style:none;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;}
+.nav-tabs a{display:block;color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;padding:5px 16px;border-radius:7px;transition:all .15s;white-space:nowrap;cursor:pointer;}
+.nav-tabs a:hover{color:var(--text);}
+.nav-tabs a.active{background:var(--red);color:#fff;box-shadow:0 2px 10px rgba(232,48,42,.4);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.srch{position:relative;}
+.srch input{background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;padding:7px 14px 7px 34px;border-radius:9px;outline:none;width:190px;transition:all .2s;}
+.srch input:focus{border-color:var(--red);width:240px;box-shadow:0 0 0 3px rgba(232,48,42,.1);}
+.srch input::placeholder{color:var(--muted);}
+.srch-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none;}
+.admin-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:7px 14px;border-radius:9px;border:1px solid var(--border2);cursor:pointer;text-decoration:none;transition:all .15s;}
+.admin-btn:hover{border-color:var(--red);color:var(--red2);}
+.wa-btn{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:7px 16px;border-radius:9px;border:none;cursor:pointer;text-decoration:none;transition:all .15s;box-shadow:0 2px 14px rgba(232,48,42,.35);}
+.wa-btn:hover{background:var(--red2);}
+
+/* CAT STRIP */
+.cat-strip{border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:6px;align-items:center;height:46px;overflow-x:auto;background:var(--bg);}
+.cat-strip::-webkit-scrollbar{display:none;}
+.cpill{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;padding:5px 14px;border-radius:7px;cursor:pointer;transition:all .15s;white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;}
+.cpill:hover{border-color:var(--dim);color:var(--text);}
+.cpill.active{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 2px 8px rgba(232,48,42,.35);}
+
+/* PAGE */
+.page{max-width:1380px;margin:0 auto;padding:24px;}
+
+/* HERO */
+.hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px 36px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:32px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(232,48,42,.09) 0%,transparent 65%);pointer-events:none;}
+.hero h1{font-size:clamp(22px,2.5vw,34px);font-weight:800;line-height:1.1;letter-spacing:-.04em;margin-bottom:10px;}
+.hero h1 em{font-style:normal;color:var(--red2);}
+.hero p{font-size:13px;color:var(--muted);line-height:1.7;max-width:460px;margin-bottom:16px;}
+.htags{display:flex;gap:8px;flex-wrap:wrap;}
+.htag{background:var(--surface);border:1px solid var(--border2);color:var(--muted);font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;}
+.htag.r{background:rgba(232,48,42,.1);border-color:rgba(232,48,42,.3);color:var(--red2);}
+.htag.g{background:rgba(240,180,41,.08);border-color:rgba(240,180,41,.25);color:var(--gold);}
+.hero-stats{display:flex;gap:12px;flex-shrink:0;}
+.hstat{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px 20px;text-align:center;min-width:80px;}
+.hstat-n{font-size:22px;font-weight:800;color:var(--red2);}
+.hstat-l{font-size:10px;color:var(--muted);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
+
+/* SEC LABEL */
+.slabel{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.slabel::before{content:'';display:block;width:3px;height:14px;border-radius:2px;background:var(--red);}
+.slabel span{color:var(--text);}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:36px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative;display:block;}
+.card:hover{background:var(--card2);border-color:var(--border2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.5);}
+.cimg{width:100%;aspect-ratio:4/3;background:#130d0d;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.cimg img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1;}
+.cimg-placeholder{font-size:3rem;opacity:.4;}
+.cimg::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 90%,rgba(232,48,42,.06) 0%,transparent 60%);pointer-events:none;z-index:2;}
+.ctag{position:absolute;top:8px;left:8px;z-index:3;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.07);color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:5px;}
+.fav{position:absolute;top:8px;right:8px;z-index:3;width:28px;height:28px;border-radius:6px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .15s;}
+.fav:hover{background:rgba(232,48,42,.3);}
+.cbody{padding:12px;}
+.cname{font-size:13px;font-weight:500;line-height:1.4;color:var(--text);margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.cfoot{display:flex;align-items:flex-end;justify-content:space-between;}
+.pusd{font-size:15px;font-weight:700;color:var(--red2);}
+.pcny{font-size:11px;color:var(--muted);margin-top:2px;}
+.gbadge{font-size:10px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:5px;}
+.ga{background:rgba(200,245,66,.1);color:#c8f542;}
+.gb{background:rgba(240,180,41,.1);color:var(--gold);}
+.gc{background:rgba(232,48,42,.1);color:var(--red2);}
+.no-res{display:none;text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1;}
+.no-res a{color:var(--red2);text-decoration:none;}
+
+/* ── ADMIN PANEL ── */
+.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center;}
+.admin-overlay.show{display:flex;}
+.admin-modal{background:#1a0f0f;border:1px solid var(--border2);border-radius:18px;width:90%;max-width:620px;max-height:90vh;overflow-y:auto;padding:28px;}
+.admin-modal::-webkit-scrollbar{width:4px;}
+.admin-modal::-webkit-scrollbar-track{background:transparent;}
+.admin-modal::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.admin-title{font-size:18px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:8px;}
+.admin-title span{color:var(--red2);}
+.close-btn{width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.close-btn:hover{border-color:var(--red);color:var(--red2);}
+
+/* photo upload area */
+.photo-upload{
+  border:2px dashed var(--border2);border-radius:12px;
+  padding:32px;text-align:center;cursor:pointer;
+  transition:all .2s;margin-bottom:20px;position:relative;
+  background:var(--surface);
+}
+.photo-upload:hover,.photo-upload.drag{border-color:var(--red);background:rgba(232,48,42,.04);}
+.photo-upload input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:2.5rem;margin-bottom:10px;}
+.upload-text{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.upload-sub{font-size:12px;color:var(--muted);}
+.preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.preview-item{aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--border);position:relative;}
+.preview-item img{width:100%;height:100%;object-fit:cover;}
+.preview-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:4px;background:rgba(232,48,42,.9);color:#fff;border:none;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;}
+
+/* form fields */
+.form-row{margin-bottom:14px;}
+.form-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;
+  padding:10px 14px;border-radius:9px;outline:none;transition:border-color .15s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,48,42,.1);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-select option{background:#1a0f0f;}
+.form-textarea{resize:vertical;min-height:80px;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.submit-btn{
+  width:100%;background:var(--red);color:#fff;
+  font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;
+  padding:13px;border-radius:10px;border:none;cursor:pointer;
+  transition:all .2s;margin-top:8px;
+  box-shadow:0 4px 20px rgba(232,48,42,.4);
+}
+.submit-btn:hover{background:var(--red2);transform:translateY(-1px);}
+.submit-btn:active{transform:translateY(0);}
+
+/* success toast */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:1000;
+  background:var(--card2);border:1px solid rgba(200,245,66,.3);
+  border-radius:12px;padding:14px 20px;
+  display:none;align-items:center;gap:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  animation:slideUp .3s ease;
+}
+.toast.show{display:flex;}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.toast-icon{font-size:18px;}
+.toast-text{font-size:13px;font-weight:600;color:#c8f542;}
+
+/* CONTACT VIEW */
+.cview{display:none;}
+.cview.show{display:block;}
+.mview.hide{display:none;}
+.cwrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:960px;}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;}
+.cc-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.cc-title::before{content:'';width:3px;height:12px;border-radius:2px;background:var(--red);display:block;}
+.crow{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);}
+.crow:last-child{border-bottom:none;}
+.cico{width:38px;height:38px;border-radius:9px;background:rgba(232,48,42,.1);border:1px solid rgba(232,48,42,.2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.clbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;}
+.cval{font-size:14px;font-weight:600;color:var(--text);margin-top:2px;}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.qitem{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:border-color .15s;cursor:pointer;}
+.qitem:hover{border-color:var(--red);}
+.qbox{width:64px;height:64px;border-radius:8px;background:var(--card);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;border:1px solid var(--border);}
+.qname{font-size:13px;font-weight:600;color:var(--text);}
+.qhandle{font-size:10px;color:var(--muted);margin-top:2px;}
+.alert{background:rgba(232,48,42,.06);border:1px solid rgba(232,48,42,.2);border-radius:10px;padding:14px 16px;display:flex;gap:10px;margin-top:16px;}
+.alert-t{font-size:12px;color:var(--muted);line-height:1.6;}
+.alert-t strong{color:var(--red2);}
+.gtable{margin-top:20px;}
+.grow{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:center;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-bottom:none;}
+.grow:first-child{border-radius:12px 12px 0 0;}
+.grow:last-child{border-bottom:1px solid var(--border);border-radius:0 0 12px 12px;}
+.gl{font-size:22px;font-weight:800;}
+.gd{font-size:12px;color:var(--muted);line-height:1.5;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.f1{animation:fadeUp .35s ease both;}
+.f2{animation:fadeUp .35s .07s ease both;}
+.f3{animation:fadeUp .35s .14s ease both;}
+
+@media(max-width:860px){.hero{flex-direction:column;gap:20px;}.cwrap{grid-template-columns:1fr;}.nav-tabs{display:none;}}
+@media(max-width:600px){nav{padding:0 12px;}.page{padding:14px;}.hero{padding:20px 16px;}.cat-strip{padding:0 12px;}.form-row-2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo" onclick="goMain();return false;">
+    <div class="logo-badge">🏪</div>
+    <div>
+      <div class="logo-name">Matt<span>Station</span></div>
+      <div class="logo-sub">Shenzhen · China</div>
+    </div>
+  </a>
+  <ul class="nav-tabs">
+    <li><a class="active" id="tab-all" onclick="goMain();setCat('all',null);return false;">All</a></li>
+    <li><a id="tab-mac" onclick="goMain();setCat('macbook',null);return false;">MacBook</a></li>
+    <li><a id="tab-iph" onclick="goMain();setCat('iphone',null);return false;">iPhone</a></li>
+    <li><a id="tab-con" onclick="goContact();return false;">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="srch">
+      <span class="srch-ico">🔍</span>
+      <input type="text" placeholder="Search model, chip, RAM…" oninput="doSearch(this.value)"/>
+    </div>
+    <button class="admin-btn" onclick="openAdmin()">⚙️ Add Product</button>
+    <a href="#" class="wa-btn" onclick="goContact();return false;">📱 WhatsApp</a>
+  </div>
+</nav>
+
+<div class="cat-strip">
+  <button class="cpill active" data-cat="all" onclick="setCat('all',this)">All Devices</button>
+  <button class="cpill" data-cat="neo13" onclick="setCat('neo13',this)">Neo 13"</button>
+  <button class="cpill" data-cat="air13" onclick="setCat('air13',this)">Air 13"</button>
+  <button class="cpill" data-cat="air15" onclick="setCat('air15',this)">Air 15"</button>
+  <button class="cpill" data-cat="pro13" onclick="setCat('pro13',this)">Pro 13"</button>
+  <button class="cpill" data-cat="pro14" onclick="setCat('pro14',this)">Pro 14"</button>
+  <button class="cpill" data-cat="pro16" onclick="setCat('pro16',this)">Pro 16"</button>
+  <button class="cpill" data-cat="iphone" onclick="setCat('iphone',this)">iPhone</button>
+</div>
+
+<!-- MAIN VIEW -->
+<div class="page mview f1" id="mview">
+  <div class="hero f1">
+    <div>
+      <h1>Quality Used <em>MacBooks</em><br/>& iPhones Direct</h1>
+      <p>Pre-owned Apple devices graded A/B/C, verified via video call before payment. Competitive USD & CNY pricing straight from Shenzhen, China.</p>
+      <div class="htags">
+        <span class="htag r">🇨🇳 Shenzhen Direct</span>
+        <span class="htag g">🎥 Video Verified</span>
+        <span class="htag">Grade A / B / C</span>
+        <span class="htag">WA +86 17724713570</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">A·B·C</div><div class="hstat-l">Grades</div></div>
+      <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">Video Check</div></div>
+      <div class="hstat"><div class="hstat-n">SZ</div><div class="hstat-l">China Direct</div></div>
+    </div>
+  </div>
+
+  <div class="slabel f2"><span>Listings</span> <span id="count-label" style="color:var(--muted);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;margin-left:4px;"></span></div>
+
+  <div class="grid f3" id="pgrid">
+    <!-- cards injected by JS -->
+  </div>
+  <div class="no-res" id="no-res">No listings found. <a href="#" onclick="goContact();return false;">Contact Matt</a> for custom requests.</div>
+</div>
+
+<!-- CONTACT VIEW -->
+<div class="page cview" id="cview">
+  <div class="slabel f1"><span>Contact Matt</span></div>
+  <div class="cwrap f2">
+    <div>
+      <div class="cc">
+        <div class="cc-title">Get in Touch</div>
+        <div class="crow"><div class="cico">📱</div><div><div class="clbl">WhatsApp</div><div class="cval">+86 17724713570</div></div></div>
+        <div class="crow"><div class="cico">💬</div><div><div class="clbl">WeChat ID</div><div class="cval">mattstation</div></div></div>
+        <div class="crow"><div class="cico">📍</div><div><div class="clbl">Location</div><div class="cval">Shenzhen, China</div></div></div>
+        <div class="crow"><div class="cico">🎥</div><div><div class="clbl">YouTube & TikTok</div><div class="cval">@mattstation</div></div></div>
+        <div class="crow"><div class="cico">📸</div><div><div class="clbl">Instagram</div><div class="cval">@mattstationm</div></div></div>
+        <div class="alert"><div style="font-size:16px;flex-shrink:0">⚠️</div><div class="alert-t">Always confirm via <strong>video call</strong> before any payment. Matt will show the device live first.</div></div>
+      </div>
+      <div class="slabel" style="margin-top:20px;"><span>Device Grade Guide</span></div>
+      <div class="gtable">
+        <div class="grow"><div class="gl" style="color:#c8f542;">A</div><div class="gd">Excellent condition. Possible very minor scratches. Fully functional.</div></div>
+        <div class="grow"><div class="gl" style="color:var(--gold);">B</div><div class="gd">Clearly visible scratches. No serious impacts. Screen fully intact.</div></div>
+        <div class="grow"><div class="gl" style="color:var(--red2);">C</div><div class="gd">Severe external damage. Screen intact. Significant price discount.</div></div>
+      </div>
+    </div>
+    <div class="cc">
+      <div class="cc-title">Scan to Connect</div>
+      <div class="qgrid">
+        <div class="qitem"><div class="qbox">📱</div><div class="qname">WhatsApp</div><div class="qhandle">+86 17724713570</div></div>
+        <div class="qitem"><div class="qbox">💬</div><div class="qname">WeChat</div><div class="qhandle">mattstation</div></div>
+        <div class="qitem"><div class="qbox">🎥</div><div class="qname">TikTok</div><div class="qhandle">@mattstation</div></div>
+        <div class="qitem"><div class="qbox">📸</div><div class="qname">Instagram</div><div class="qhandle">@mattstationm</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="admin-overlay" id="admin-overlay" onclick="handleOverlayClick(event)">
+  <div class="admin-modal" id="admin-modal">
+    <div class="admin-header">
+      <div class="admin-title">⚙️ Add <span>Product</span></div>
+      <button class="close-btn" onclick="closeAdmin()">✕</button>
     </div>
 
-    <div class="prog-wrap">
-      <div class="prog-inner">
-        <div class="prog-top">
-          <div class="prog-label">Overall Progress</div>
-          <div class="prog-num"><span id="pdone">0</span> / 100 completed</div>
-        </div>
-        <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
+    <!-- Photo Upload -->
+    <div class="form-row">
+      <label class="form-label">Product Photos</label>
+      <div class="photo-upload" id="upload-zone">
+        <input type="file" accept="image/*" multiple onchange="handleFiles(this.files)" id="file-input"/>
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Tap to add photos</div>
+        <div class="upload-sub">Take a photo or choose from gallery · JPG, PNG, HEIC</div>
+      </div>
+      <div class="preview-grid" id="preview-grid" style="display:none;"></div>
+    </div>
+
+    <!-- Product Name -->
+    <div class="form-row">
+      <label class="form-label">Product Name</label>
+      <input class="form-input" id="f-name" type="text" placeholder="e.g. MacBook Pro 14&quot; M4 Max 36GB 1TB"/>
+    </div>
+
+    <!-- Category + Grade -->
+    <div class="form-row-2">
+      <div>
+        <label class="form-label">Category</label>
+        <select class="form-select" id="f-cat">
+          <option value="pro16">MacBook Pro 16"</option>
+          <option value="pro14">MacBook Pro 14"</option>
+          <option value="pro13">MacBook Pro 13"</option>
+          <option value="air15">MacBook Air 15"</option>
+          <option value="air13">MacBook Air 13"</option>
+          <option value="neo13">MacBook Neo 13"</option>
+          <option value="iphone">iPhone</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Device Grade</label>
+        <select class="form-select" id="f-grade">
+          <option value="A">Grade A — Excellent</option>
+          <option value="B">Grade B — Minor scratches</option>
+          <option value="C">Grade C — Visible damage</option>
+        </select>
       </div>
     </div>
 
-    <div class="filters">
-      <span class="flabel">Filter:</span>
-      <button class="fbtn active" onclick="setFilter('all',this)">
-        All (100)
-      </button>
-      <button class="fbtn" onclick="setFilter('easy',this)">Easy</button>
-      <button class="fbtn" onclick="setFilter('medium',this)">Medium</button>
-      <button class="fbtn" onclick="setFilter('hard',this)">Hard</button>
-      <button class="fbtn" onclick="setFilter('done',this)">Done ✓</button>
-      <button class="fbtn" onclick="setFilter('todo',this)">Not Done</button>
-      <input
-        class="search"
-        placeholder="Search exercises..."
-        oninput="setSearch(this.value)"
-      />
-    </div>
-
-    <div class="main" id="main"></div>
-
-    <div class="overlay" id="overlay" onclick="closeOut(event)">
-      <div class="modal">
-        <button class="mclose" onclick="closeModal()">✕</button>
-        <div class="mnum" id="mnum"></div>
-        <div class="mtitle" id="mtitle"></div>
-        <div class="msub">What to do</div>
-        <div class="mdesc" id="mdesc"></div>
-        <div class="msub">Example</div>
-        <div class="mcode" id="mcode"></div>
-        <div class="msub">Hint</div>
-        <div class="mhint" id="mhint"></div>
-        <div class="mactions">
-          <button class="bdone" id="mdone" onclick="markDone()">
-            ✓ Mark as Done
-          </button>
-          <button class="bskip" onclick="closeModal()">Close</button>
-        </div>
+    <!-- Price USD + CNY -->
+    <div class="form-row-2">
+      <div>
+        <label class="form-label">Price (USD)</label>
+        <input class="form-input" id="f-usd" type="text" placeholder="e.g. 2215"/>
+      </div>
+      <div>
+        <label class="form-label">Price (CNY) — optional</label>
+        <input class="form-input" id="f-cny" type="text" placeholder="e.g. 15100"/>
       </div>
     </div>
 
-    <script>
-      const CH = [
-        {
-          title: "Basics & console.log",
-          num: "01",
-          ex: [
-            {
-              t: "Print to Console",
-              d: "Print 'Hello, World!', your name, a number, and a boolean. Practice console.log with strings, numbers, booleans, arrays, and objects.",
-              e: "console.log('Hello, World!');\nconsole.log('Kaleab');\nconsole.log(42);\nconsole.log(true);\nconsole.log([1,2,3]);",
-              h: "console.log() works with any data type. Strings need quotes, others don't.",
-              diff: "easy",
-              topic: "basics",
-            },
-            {
-              t: "Use typeof",
-              d: "Use typeof on different values: number, string, boolean, undefined, null, array, function. Notice the surprising result with null.",
-              e: "console.log(typeof 42);          // 'number'\nconsole.log(typeof 'hi');        // 'string'\nconsole.log(typeof true);        // 'boolean'\nconsole.log(typeof null);        // 'object' (quirk!)\nconsole.log(typeof []);          // 'object'",
-              h: "typeof null returns 'object' — famous JavaScript quirk.",
-              diff: "easy",
-              topic: "basics",
-            },
-            {
-              t: "Console Methods",
-              d: "Try console.warn, console.error, console.table, console.group, and console.time to measure code speed.",
-              e: "console.warn('Careful!');\nconsole.error('Something broke');\nconsole.table([{a:1},{a:2}]);\nconsole.time('test');\nfor(let i=0;i<1000;i++){}\nconsole.timeEnd('test');",
-              h: "Each console method has its own purpose and visual style.",
-              diff: "easy",
-              topic: "basics",
-            },
-            {
-              t: "Special Characters",
-              d: "Print text with escaped quotes, newline \\n, and tab \\t.",
-              e: "console.log('He said \"Hello\"');\nconsole.log('Line 1\\nLine 2');\nconsole.log('Name\\tAge');",
-              h: "Backslash \\ creates escape sequences inside strings.",
-              diff: "easy",
-              topic: "basics",
-            },
-          ],
-        },
-        {
-          title: "Variables",
-          num: "02",
-          ex: [
-            {
-              t: "let vs const",
-              d: "Create a let variable and reassign it. Create a const and try to reassign (read the error). Then mutate a const object's property.",
-              e: "let count = 0;\ncount = 5;          // works\n\nconst PI = 3.14;\n// PI = 4;          // TypeError!\n\nconst user = {name:'K'};\nuser.name = 'Ali';   // works — only reassignment is blocked",
-              h: "let allows reassignment. const blocks reassignment but not mutation.",
-              diff: "easy",
-              topic: "variables",
-            },
-            {
-              t: "Variable Types",
-              d: "Create variables for: string, number, boolean, null, undefined. Print all with typeof.",
-              e: "let name = 'Kaleab';\nlet age = 20;\nlet active = true;\nlet empty = null;\nlet nothing;\nconsole.log(typeof name, typeof age, typeof active);",
-              h: "5 primitive types: string, number, boolean, null, undefined.",
-              diff: "easy",
-              topic: "variables",
-            },
-            {
-              t: "Assignment Operators",
-              d: "Use ++, --, +=, *=, ??=, ||= on variables.",
-              e: "let x = 5;\nx++;          // 6\nx += 10;      // 16\nx *= 2;       // 32\n\nlet val = null;\nval ??= 'default'; // 'default'",
-              h: "+= and *= shortcuts modify the variable in place.",
-              diff: "medium",
-              topic: "variables",
-            },
-            {
-              t: "Swap Variables",
-              d: "Swap two variables WITHOUT a temporary variable using array destructuring.",
-              e: "let a = 1, b = 2;\n[a, b] = [b, a];\nconsole.log(a, b); // 2 1",
-              h: "Array destructuring lets you assign multiple values at once.",
-              diff: "medium",
-              topic: "variables",
-            },
-          ],
-        },
-        {
-          title: "Strings",
-          num: "03",
-          ex: [
-            {
-              t: "String Length & Case",
-              d: "Find the length of a string. Convert to uppercase and lowercase.",
-              e: "let s = 'Hello World';\nconsole.log(s.length);          // 11\nconsole.log(s.toUpperCase());   // 'HELLO WORLD'\nconsole.log(s.toLowerCase());   // 'hello world'",
-              h: "Use .length property and .toUpperCase()/.toLowerCase() methods.",
-              diff: "easy",
-              topic: "strings",
-            },
-            {
-              t: "Template Literals",
-              d: "Use backticks and ${} to embed variables in a string. Create a multiline template too.",
-              e: "let name = 'Kaleab', age = 20;\nconsole.log(`My name is ${name} and I am ${age}`);\n\nlet poem = `Line 1\nLine 2\nLine 3`;",
-              h: "Use backticks ` not regular quotes. ${} embeds expressions.",
-              diff: "easy",
-              topic: "strings",
-            },
-            {
-              t: "Search in String",
-              d: "Use .includes(), .startsWith(), .endsWith(), and .indexOf() to search inside a string.",
-              e: "let s = 'JavaScript is fun';\ns.includes('Script');    // true\ns.startsWith('Java');     // true\ns.endsWith('fun');        // true\ns.indexOf('is');          // 11",
-              h: "All search methods return boolean except indexOf which returns position.",
-              diff: "easy",
-              topic: "strings",
-            },
-            {
-              t: "Extract Parts",
-              d: "Use .slice(), .substring(), .at(), and bracket notation to access parts of a string.",
-              e: "let s = 'JavaScript';\ns[0];           // 'J'\ns.at(-1);       // 't' (last char)\ns.slice(0, 4);  // 'Java'\ns.slice(-6);    // 'Script'",
-              h: "Index 0 is first char. Negative numbers count from end.",
-              diff: "medium",
-              topic: "strings",
-            },
-            {
-              t: "Modify Strings",
-              d: "Use .replace(), .replaceAll(), .trim(), .repeat(), and .padStart().",
-              e: "'hello'.replace('l', 'L');     // 'heLlo' (first only)\n'banana'.replaceAll('a', '@'); // 'b@n@n@'\n'  hi  '.trim();              // 'hi'\n'ha'.repeat(3);                // 'hahaha'\n'5'.padStart(3, '0');          // '005'",
-              h: "Each method returns a new string. Strings are immutable in JavaScript.",
-              diff: "medium",
-              topic: "strings",
-            },
-            {
-              t: "Split & Join",
-              d: "Convert a sentence to array of words. Convert array back to string.",
-              e: "let s = 'Hello World JavaScript';\nlet words = s.split(' ');     // ['Hello','World','JavaScript']\nlet back = words.join('-');   // 'Hello-World-JavaScript'",
-              h: "split breaks a string into array. join combines array into string.",
-              diff: "medium",
-              topic: "strings",
-            },
-            {
-              t: "Reverse a String",
-              d: "Reverse 'hello' to get 'olleh'. Hint — strings don't have .reverse() but arrays do.",
-              e: "let s = 'hello';\nlet rev = s.split('').reverse().join('');\nconsole.log(rev); // 'olleh'",
-              h: "Split into chars, reverse the array, join back together.",
-              diff: "medium",
-              topic: "strings",
-            },
-            {
-              t: "Palindrome Check",
-              d: "Check if 'racecar' is a palindrome (reads same forwards and backwards).",
-              e: "function isPalindrome(s){\n  return s === s.split('').reverse().join('');\n}\nconsole.log(isPalindrome('racecar')); // true",
-              h: "A palindrome equals its own reverse.",
-              diff: "medium",
-              topic: "strings",
-            },
-          ],
-        },
-        {
-          title: "Numbers & Math",
-          num: "04",
-          ex: [
-            {
-              t: "Basic Math",
-              d: "Use +, -, *, /, %, and ** with numbers.",
-              e: "console.log(10 + 5);   // 15\nconsole.log(10 % 3);   // 1 (remainder)\nconsole.log(2 ** 8);   // 256 (exponent)",
-              h: "% gives remainder. ** is exponent (power).",
-              diff: "easy",
-              topic: "numbers",
-            },
-            {
-              t: "Rounding",
-              d: "Use Math.round(), Math.floor(), Math.ceil(), and .toFixed() to round numbers.",
-              e: "Math.round(4.7);     // 5\nMath.floor(4.9);     // 4 (down)\nMath.ceil(4.1);      // 5 (up)\n(3.14159).toFixed(2); // '3.14'",
-              h: ".toFixed() returns a string, others return numbers.",
-              diff: "easy",
-              topic: "numbers",
-            },
-            {
-              t: "Min & Max",
-              d: "Find the largest and smallest among 5, 12, 3, 8, 2 using Math.max and Math.min.",
-              e: "Math.max(5, 12, 3, 8, 2); // 12\nMath.min(5, 12, 3, 8, 2); // 2\n\n// Spread array as arguments:\nMath.max(...[5, 12, 3]);  // 12",
-              h: "Pass arguments separately or spread an array with ...",
-              diff: "easy",
-              topic: "numbers",
-            },
-            {
-              t: "Random Numbers",
-              d: "Generate a random number 0-1, then a random integer between 1 and 100.",
-              e: "Math.random();                       // 0.0 to 1.0\n\n// Random integer 1 to 100:\nMath.floor(Math.random() * 100) + 1;",
-              h: "Multiply, floor, then add minimum.",
-              diff: "medium",
-              topic: "numbers",
-            },
-            {
-              t: "Convert Types",
-              d: "Convert strings to numbers and vice versa.",
-              e: "parseInt('42');    // 42\nparseFloat('3.14'); // 3.14\nNumber('100');     // 100\n(42).toString();   // '42'",
-              h: "parseInt for integers, parseFloat for decimals, Number for both.",
-              diff: "easy",
-              topic: "numbers",
-            },
-            {
-              t: "Check Number Validity",
-              d: "Use isNaN(), isFinite(), and Number.isInteger() to check numbers.",
-              e: "isNaN('hello');           // true (Not a Number)\nisFinite(Infinity);       // false\nNumber.isInteger(4.0);    // true\nNumber.isInteger(4.5);    // false",
-              h: "These checks help validate input.",
-              diff: "medium",
-              topic: "numbers",
-            },
-          ],
-        },
-        {
-          title: "Conditionals",
-          num: "05",
-          ex: [
-            {
-              t: "if / else / else if",
-              d: "Create a grade system: 90+ = A, 80+ = B, 70+ = C, else = F.",
-              e: "function grade(s){\n  if(s >= 90) return 'A';\n  else if(s >= 80) return 'B';\n  else if(s >= 70) return 'C';\n  else return 'F';\n}\nconsole.log(grade(85)); // 'B'",
-              h: "Chain else if for multiple conditions. Order matters!",
-              diff: "easy",
-              topic: "conditionals",
-            },
-            {
-              t: "Ternary Operator",
-              d: "Use ternary (? :) for short if/else. Also try nested ternary.",
-              e: "let age = 20;\nlet status = age >= 18 ? 'Adult' : 'Minor';\n\n// Nested:\nlet n = 0;\nlet sign = n > 0 ? 'pos' : n < 0 ? 'neg' : 'zero';",
-              h: "condition ? ifTrue : ifFalse",
-              diff: "medium",
-              topic: "conditionals",
-            },
-            {
-              t: "Logical Operators",
-              d: "Use &&, ||, !, ??, and ?. (optional chaining).",
-              e: "// AND - both must be true\n18 <= age && age <= 65;\n\n// OR - at least one true\nuser.isAdmin || user.isOwner;\n\n// Nullish coalescing\nlet name = input ?? 'Anonymous';\n\n// Optional chaining\nuser?.address?.city;",
-              h: "?? only triggers on null/undefined. || triggers on any falsy value.",
-              diff: "medium",
-              topic: "conditionals",
-            },
-            {
-              t: "Switch Statement",
-              d: "Use switch to match different days of the week.",
-              e: "function day(n){\n  switch(n){\n    case 1: return 'Monday';\n    case 2: return 'Tuesday';\n    case 3: return 'Wednesday';\n    default: return 'Other';\n  }\n}",
-              h: "Don't forget break or return in each case.",
-              diff: "medium",
-              topic: "conditionals",
-            },
-            {
-              t: "Truthy & Falsy",
-              d: "Identify all falsy values in JavaScript: 0, '', null, undefined, NaN, false.",
-              e: "Boolean(0);          // false\nBoolean('');         // false\nBoolean(null);       // false\nBoolean(undefined);  // false\nBoolean(NaN);        // false\nBoolean('hi');       // true\nBoolean([]);         // true (empty array is truthy!)",
-              h: "Only 6 falsy values exist. Empty arrays and objects are TRUTHY.",
-              diff: "medium",
-              topic: "conditionals",
-            },
-            {
-              t: "FizzBuzz",
-              d: "For numbers 1 to 20: print 'Fizz' if divisible by 3, 'Buzz' if by 5, 'FizzBuzz' if both, else the number.",
-              e: "for(let i = 1; i <= 20; i++){\n  if(i % 15 === 0) console.log('FizzBuzz');\n  else if(i % 3 === 0) console.log('Fizz');\n  else if(i % 5 === 0) console.log('Buzz');\n  else console.log(i);\n}",
-              h: "Always check the most specific condition (divisible by 15) first.",
-              diff: "medium",
-              topic: "conditionals",
-            },
-          ],
-        },
-        {
-          title: "Loops",
-          num: "06",
-          ex: [
-            {
-              t: "for Loop Basics",
-              d: "Print numbers 1 to 10 with a for loop. Then count down from 10 to 1.",
-              e: "for(let i = 1; i <= 10; i++) console.log(i);\nfor(let i = 10; i >= 1; i--) console.log(i);",
-              h: "for(start; condition; update) {}",
-              diff: "easy",
-              topic: "loops",
-            },
-            {
-              t: "while Loop",
-              d: "Use while and do...while loops to count to 5.",
-              e: "let i = 1;\nwhile(i <= 5){\n  console.log(i);\n  i++;\n}\n\n// do...while runs at least once:\nlet j = 100;\ndo{\n  console.log(j);\n} while(j < 5); // prints 100 once",
-              h: "do...while always runs at least once, even if condition is false.",
-              diff: "easy",
-              topic: "loops",
-            },
-            {
-              t: "Loop Arrays",
-              d: "Loop through an array using for, forEach, and for...of.",
-              e: "let arr = ['a', 'b', 'c'];\n\nfor(let i = 0; i < arr.length; i++)\n  console.log(arr[i]);\n\narr.forEach(item => console.log(item));\n\nfor(let item of arr) console.log(item);",
-              h: "for...of is cleanest for arrays. forEach is functional.",
-              diff: "easy",
-              topic: "loops",
-            },
-            {
-              t: "Loop Objects",
-              d: "Use for...in to loop through object keys and access values.",
-              e: "let user = {name:'Kaleab', age:20};\nfor(let key in user){\n  console.log(key, user[key]);\n}",
-              h: "for...in gives KEYS. Use obj[key] to get value.",
-              diff: "medium",
-              topic: "loops",
-            },
-            {
-              t: "break & continue",
-              d: "Use break to stop early. Use continue to skip an iteration.",
-              e: "// break: stop at 5\nfor(let i = 1; i <= 10; i++){\n  if(i === 5) break;\n  console.log(i); // 1,2,3,4\n}\n\n// continue: skip even numbers\nfor(let i = 1; i <= 10; i++){\n  if(i % 2 === 0) continue;\n  console.log(i); // 1,3,5,7,9\n}",
-              h: "break exits loop. continue jumps to next iteration.",
-              diff: "medium",
-              topic: "loops",
-            },
-            {
-              t: "Nested Loops",
-              d: "Print a multiplication table using nested for loops.",
-              e: "for(let i = 1; i <= 3; i++){\n  for(let j = 1; j <= 3; j++){\n    console.log(`${i}x${j}=${i*j}`);\n  }\n}",
-              h: "Outer loop runs once for each inner loop completion.",
-              diff: "medium",
-              topic: "loops",
-            },
-            {
-              t: "Sum & Find Max",
-              d: "Use a loop to sum 1 to 100 and find the largest number in an array.",
-              e: "let sum = 0;\nfor(let i = 1; i <= 100; i++) sum += i;\nconsole.log(sum); // 5050\n\nlet nums = [3, 7, 2, 9, 1];\nlet max = nums[0];\nfor(let n of nums) if(n > max) max = n;\nconsole.log(max); // 9",
-              h: "Initialize accumulator, update inside loop.",
-              diff: "medium",
-              topic: "loops",
-            },
-          ],
-        },
-        {
-          title: "Functions",
-          num: "07",
-          ex: [
-            {
-              t: "Function Basics",
-              d: "Create a function 4 ways: declaration, expression, arrow function (one line), arrow function (block body).",
-              e: "// Declaration\nfunction add1(a, b){ return a + b; }\n\n// Expression\nconst add2 = function(a, b){ return a + b; };\n\n// Arrow (one line)\nconst add3 = (a, b) => a + b;\n\n// Arrow (block)\nconst add4 = (a, b) => {\n  return a + b;\n};",
-              h: "All do the same thing. Arrow functions are most common today.",
-              diff: "easy",
-              topic: "functions",
-            },
-            {
-              t: "Parameters & Returns",
-              d: "Create function with required param, default param, and rest params.",
-              e: "// Default parameter\nfunction greet(name = 'stranger'){\n  return `Hello, ${name}`;\n}\n\n// Rest parameters\nfunction sum(...nums){\n  return nums.reduce((a, b) => a + b, 0);\n}\nsum(1, 2, 3, 4, 5); // 15",
-              h: "= sets default. ...rest collects all extra args into array.",
-              diff: "medium",
-              topic: "functions",
-            },
-            {
-              t: "Higher-Order Function",
-              d: "Write a function that takes another function as argument.",
-              e: "function applyTwice(fn, value){\n  return fn(fn(value));\n}\nconsole.log(applyTwice(x => x * 2, 5)); // 20",
-              h: "Functions are values — they can be passed around like any data.",
-              diff: "hard",
-              topic: "functions",
-            },
-            {
-              t: "Closure",
-              d: "Create a counter using a closure (inner function remembers outer variable).",
-              e: "function makeCounter(){\n  let count = 0;\n  return function(){\n    return ++count;\n  };\n}\nconst c = makeCounter();\nconsole.log(c()); // 1\nconsole.log(c()); // 2",
-              h: "Inner function retains access to outer function's variables.",
-              diff: "hard",
-              topic: "functions",
-            },
-            {
-              t: "Recursion",
-              d: "Calculate factorial of 5 using a recursive function.",
-              e: "function factorial(n){\n  if(n <= 1) return 1;       // base case\n  return n * factorial(n-1); // recursive case\n}\nconsole.log(factorial(5)); // 120",
-              h: "Always have a base case to stop the recursion.",
-              diff: "hard",
-              topic: "functions",
-            },
-          ],
-        },
-        {
-          title: "Arrays",
-          num: "08",
-          ex: [
-            {
-              t: "Array Basics",
-              d: "Create an array. Access items. Get length. Use push, pop, shift, unshift.",
-              e: "let arr = [1, 2, 3];\narr[0];          // 1 (first)\narr[arr.length-1]; // 3 (last)\narr.push(4);     // adds to end\narr.pop();       // removes from end\narr.unshift(0);  // adds to start\narr.shift();     // removes from start",
-              h: "push/pop work on the end. unshift/shift work on the start.",
-              diff: "easy",
-              topic: "arrays",
-            },
-            {
-              t: "Search Arrays",
-              d: "Use indexOf, includes, find, findIndex.",
-              e: "let arr = [5, 8, 12, 3, 7];\narr.indexOf(12);              // 2\narr.includes(7);              // true\narr.find(n => n > 10);        // 12 (first match)\narr.findIndex(n => n > 10);   // 2 (index)",
-              h: "includes returns boolean. find returns the value. findIndex returns the position.",
-              diff: "medium",
-              topic: "arrays",
-            },
-            {
-              t: "Slice & Splice",
-              d: "Use slice (no mutation) and splice (mutates) on arrays.",
-              e: "let arr = [1, 2, 3, 4, 5];\n\n// slice: returns NEW array, doesn't change original\narr.slice(1, 3);    // [2, 3]\nconsole.log(arr);   // [1,2,3,4,5] unchanged\n\n// splice: MUTATES original\narr.splice(1, 2);   // removes [2,3]\nconsole.log(arr);   // [1, 4, 5]",
-              h: "slice = copy. splice = modify original.",
-              diff: "medium",
-              topic: "arrays",
-            },
-            {
-              t: "map()",
-              d: "Use .map() to transform every item in an array.",
-              e: "let nums = [1, 2, 3];\nlet doubled = nums.map(n => n * 2);\nconsole.log(doubled); // [2, 4, 6]\n\nlet names = ['alice', 'bob'];\nlet upper = names.map(n => n.toUpperCase());",
-              h: ".map() returns a NEW array of the same length.",
-              diff: "medium",
-              topic: "arrays",
-            },
-            {
-              t: "filter()",
-              d: "Use .filter() to keep only items matching a condition.",
-              e: "let nums = [1, 2, 3, 4, 5, 6];\nlet evens = nums.filter(n => n % 2 === 0);\nconsole.log(evens); // [2, 4, 6]\n\nlet words = ['hi', 'hello', 'yo'];\nlet long = words.filter(w => w.length > 3);",
-              h: "filter keeps items where condition returns true.",
-              diff: "medium",
-              topic: "arrays",
-            },
-            {
-              t: "reduce()",
-              d: "Use .reduce() to sum an array and count occurrences.",
-              e: "let nums = [1, 2, 3, 4, 5];\nlet sum = nums.reduce((acc, n) => acc + n, 0);\nconsole.log(sum); // 15\n\nlet letters = ['a','b','a','c','a'];\nlet counts = letters.reduce((acc, l) => {\n  acc[l] = (acc[l] || 0) + 1;\n  return acc;\n}, {});\nconsole.log(counts); // {a:3, b:1, c:1}",
-              h: "reduce(accumulator, currentItem) — start with initial value (0 or {}).",
-              diff: "hard",
-              topic: "arrays",
-            },
-            {
-              t: "Chaining Methods",
-              d: "Chain filter and map together. Get even numbers and double them.",
-              e: "let nums = [1, 2, 3, 4, 5, 6];\nlet result = nums\n  .filter(n => n % 2 === 0)\n  .map(n => n * 2);\nconsole.log(result); // [4, 8, 12]",
-              h: "Each method returns a new array — chain them with dots.",
-              diff: "hard",
-              topic: "arrays",
-            },
-            {
-              t: "Sort & Reverse",
-              d: "Sort strings alphabetically. Sort numbers (be careful — default is alphabetic!).",
-              e: "['banana','apple','cherry'].sort();\n// ['apple','banana','cherry']\n\n// For numbers, you MUST use a compare function:\n[10, 1, 5, 100].sort((a, b) => a - b);\n// [1, 5, 10, 100]\n\n[1, 2, 3].reverse(); // [3, 2, 1]",
-              h: "sort() converts to strings by default. Use (a,b)=>a-b for numbers.",
-              diff: "medium",
-              topic: "arrays",
-            },
-            {
-              t: "Spread & Destructure",
-              d: "Use spread to copy/combine arrays. Use destructuring to extract values.",
-              e: "let a = [1, 2, 3];\nlet b = [...a, 4, 5];     // [1,2,3,4,5] copy + add\nlet [first, second, ...rest] = b;\nconsole.log(first, second, rest); // 1 2 [3,4,5]",
-              h: "...array spreads items. [a, b] destructures into variables.",
-              diff: "medium",
-              topic: "arrays",
-            },
-            {
-              t: "Remove Duplicates",
-              d: "Remove duplicates using Set. Find common elements between arrays.",
-              e: "// Remove duplicates\nlet unique = [...new Set([1, 2, 2, 3, 3, 4])];\nconsole.log(unique); // [1, 2, 3, 4]\n\n// Intersection\nlet a = [1, 2, 3, 4];\nlet b = [3, 4, 5, 6];\nlet common = a.filter(n => b.includes(n));\nconsole.log(common); // [3, 4]",
-              h: "Set holds only unique values. Spread converts back to array.",
-              diff: "hard",
-              topic: "arrays",
-            },
-          ],
-        },
-        {
-          title: "Objects",
-          num: "09",
-          ex: [
-            {
-              t: "Object Basics",
-              d: "Create an object. Access properties with dot and bracket notation. Add and delete properties.",
-              e: "let person = {\n  name: 'Kaleab',\n  age: 20\n};\nperson.name;        // dot notation\nperson['age'];      // bracket notation\nperson.email = 'k@e.com'; // add property\ndelete person.age;        // delete property",
-              h: "Use dot when you know the key. Use brackets for dynamic keys.",
-              diff: "easy",
-              topic: "objects",
-            },
-            {
-              t: "Object.keys/values/entries",
-              d: "Get all keys, values, and entries of an object as arrays.",
-              e: "let user = {name:'Kaleab', age:20, city:'Addis'};\n\nObject.keys(user);    // ['name','age','city']\nObject.values(user);  // ['Kaleab', 20, 'Addis']\nObject.entries(user); // [['name','Kaleab'],['age',20],['city','Addis']]",
-              h: "entries returns [key, value] pairs — useful for looping.",
-              diff: "medium",
-              topic: "objects",
-            },
-            {
-              t: "Loop Objects",
-              d: "Loop through object using for...in and Object.entries().",
-              e: "let user = {name:'Kaleab', age:20};\n\nfor(let key in user){\n  console.log(key, user[key]);\n}\n\nfor(let [key, val] of Object.entries(user)){\n  console.log(key, val);\n}",
-              h: "for...in gives keys only. entries gives both.",
-              diff: "medium",
-              topic: "objects",
-            },
-            {
-              t: "Destructuring Objects",
-              d: "Extract properties. Rename them. Provide defaults.",
-              e: "let user = {name:'Kaleab', age:20};\n\nlet {name, age} = user;\nlet {name: fullName} = user;       // rename\nlet {country = 'Ethiopia'} = user; // default",
-              h: "const {key} = object — looks like creating an object but does opposite.",
-              diff: "medium",
-              topic: "objects",
-            },
-            {
-              t: "Spread & Merge Objects",
-              d: "Copy object with spread. Merge multiple objects. Add new properties.",
-              e: "let a = {x: 1};\nlet b = {y: 2};\n\nlet copy = {...a};            // shallow copy\nlet merged = {...a, ...b};    // {x:1, y:2}\nlet updated = {...a, z: 3};   // {x:1, z:3}",
-              h: "...object spreads properties. Later properties override earlier.",
-              diff: "medium",
-              topic: "objects",
-            },
-            {
-              t: "Methods & this",
-              d: "Add a method to an object. Use 'this' to access the object's own properties.",
-              e: "let person = {\n  name: 'Kaleab',\n  greet(){\n    return `Hi, ${this.name}`;\n  }\n};\nconsole.log(person.greet()); // 'Hi, Kaleab'",
-              h: "this refers to the object the method belongs to.",
-              diff: "medium",
-              topic: "objects",
-            },
-            {
-              t: "Nested Access",
-              d: "Safely access nested properties with optional chaining ?.",
-              e: "let user = {profile: {address: {city: 'Addis'}}};\n\nuser.profile.address.city;       // 'Addis'\nuser?.profile?.address?.city;    // 'Addis'\nuser?.work?.title;               // undefined (no error!)",
-              h: "?. returns undefined instead of throwing error if property missing.",
-              diff: "medium",
-              topic: "objects",
-            },
-            {
-              t: "Array of Objects",
-              d: "Filter and sort an array of objects by a property.",
-              e: "let people = [\n  {name:'Alice', age:25},\n  {name:'Bob', age:17},\n  {name:'Charlie', age:30}\n];\n\nlet adults = people.filter(p => p.age >= 18);\nlet sorted = people.sort((a, b) => a.age - b.age);",
-              h: "All array methods work on arrays of objects too.",
-              diff: "hard",
-              topic: "objects",
-            },
-          ],
-        },
-        {
-          title: "DOM Selection",
-          num: "10",
-          ex: [
-            {
-              t: "Select Elements",
-              d: "Select elements by ID, class, tag, and CSS selector.",
-              e: "document.getElementById('myId');\ndocument.getElementsByClassName('btn');\ndocument.getElementsByTagName('p');\ndocument.querySelector('.btn');  // first match\ndocument.querySelectorAll('li'); // all matches",
-              h: "querySelector uses CSS selectors. Most flexible.",
-              diff: "easy",
-              topic: "DOM",
-            },
-            {
-              t: "Change Text",
-              d: "Change text content of element using textContent and innerHTML.",
-              e: "const el = document.getElementById('title');\n\nel.textContent = 'New Text';   // plain text (safer)\nel.innerHTML = '<b>Bold!</b>'; // parses HTML",
-              h: "Prefer textContent. innerHTML is risky if data comes from users.",
-              diff: "easy",
-              topic: "DOM",
-            },
-            {
-              t: "Change Styles",
-              d: "Change CSS using .style and classList.",
-              e: "const el = document.getElementById('box');\n\n// Inline style\nel.style.color = 'red';\nel.style.fontSize = '20px';\n\n// CSS classes (preferred)\nel.classList.add('active');\nel.classList.remove('hidden');\nel.classList.toggle('dark');",
-              h: "Use classList for CSS. Use .style only for dynamic values.",
-              diff: "easy",
-              topic: "DOM",
-            },
-            {
-              t: "Attributes",
-              d: "Get, set, and remove element attributes.",
-              e: "const link = document.querySelector('a');\n\nlink.getAttribute('href');\nlink.setAttribute('href', 'https://...');\nlink.removeAttribute('disabled');\n\n// Special: data attributes\nel.dataset.id; // reads data-id",
-              h: "dataset is shorthand for reading data-* attributes.",
-              diff: "medium",
-              topic: "DOM",
-            },
-            {
-              t: "Read Input Values",
-              d: "Get values from input, textarea, checkbox, and select.",
-              e: "document.getElementById('input').value;\ndocument.getElementById('checkbox').checked;\ndocument.getElementById('select').value;\n\n// Set values\ninput.value = 'new value';\ncheckbox.checked = true;",
-              h: "Inputs use .value. Checkboxes use .checked (boolean).",
-              diff: "easy",
-              topic: "DOM",
-            },
-            {
-              t: "Create & Insert",
-              d: "Create new element, add text, and append to DOM.",
-              e: "const li = document.createElement('li');\nli.textContent = 'New item';\nli.classList.add('item');\n\ndocument.querySelector('ul').appendChild(li);\n// or prepend, before, after",
-              h: "createElement → set content → append.",
-              diff: "medium",
-              topic: "DOM",
-            },
-            {
-              t: "Remove Elements",
-              d: "Remove an element from the DOM.",
-              e: "const el = document.getElementById('remove-me');\nel.remove();\n\n// Or via parent:\nel.parentNode.removeChild(el);",
-              h: ".remove() is the modern, cleaner way.",
-              diff: "easy",
-              topic: "DOM",
-            },
-          ],
-        },
-        {
-          title: "Events",
-          num: "11",
-          ex: [
-            {
-              t: "Click Events",
-              d: "Attach a click event listener to a button.",
-              e: "const btn = document.querySelector('button');\n\nbtn.addEventListener('click', () => {\n  console.log('Clicked!');\n});\n\n// With event object:\nbtn.addEventListener('click', (e) => {\n  console.log(e.target);\n});",
-              h: "addEventListener(type, handler). e is the event object.",
-              diff: "easy",
-              topic: "events",
-            },
-            {
-              t: "Form Events",
-              d: "Handle submit, input, and change events. Prevent default behavior.",
-              e: "const form = document.querySelector('form');\nform.addEventListener('submit', (e) => {\n  e.preventDefault(); // stop page reload\n  console.log('Submitted!');\n});\n\nconst input = document.querySelector('input');\ninput.addEventListener('input', (e) => {\n  console.log(e.target.value);\n});",
-              h: "e.preventDefault() stops default browser behavior.",
-              diff: "medium",
-              topic: "events",
-            },
-            {
-              t: "Keyboard Events",
-              d: "Detect key presses with keydown and keyup.",
-              e: "document.addEventListener('keydown', (e) => {\n  console.log(e.key);       // 'a', 'Enter', etc.\n  console.log(e.code);      // 'KeyA', 'Enter'\n  console.log(e.shiftKey);  // true/false\n  \n  if(e.key === 'Escape'){\n    console.log('Esc pressed!');\n  }\n});",
-              h: "e.key is the character. e.code is the physical key.",
-              diff: "medium",
-              topic: "events",
-            },
-            {
-              t: "Mouse Events",
-              d: "Use mouseover, mouseout, and mousemove events.",
-              e: "const box = document.getElementById('box');\n\nbox.addEventListener('mouseover', () => {\n  box.style.background = 'yellow';\n});\nbox.addEventListener('mouseout', () => {\n  box.style.background = '';\n});\nbox.addEventListener('mousemove', (e) => {\n  console.log(e.clientX, e.clientY);\n});",
-              h: "e.clientX/Y gives mouse position relative to viewport.",
-              diff: "medium",
-              topic: "events",
-            },
-            {
-              t: "Event Delegation",
-              d: "Use one event listener on a parent to handle clicks on all children.",
-              e: "document.querySelector('ul').addEventListener('click', (e) => {\n  if(e.target.tagName === 'LI'){\n    console.log('Clicked:', e.target.textContent);\n  }\n});",
-              h: "Delegation is efficient — one listener handles many elements.",
-              diff: "hard",
-              topic: "events",
-            },
-            {
-              t: "Remove Listener",
-              d: "Add then later remove an event listener.",
-              e: "function handler(){\n  console.log('clicked');\n}\nbtn.addEventListener('click', handler);\n\n// To remove, you need the same function reference:\nbtn.removeEventListener('click', handler);",
-              h: "You CANNOT remove anonymous arrow functions. Use named functions.",
-              diff: "hard",
-              topic: "events",
-            },
-          ],
-        },
-        {
-          title: "Async JavaScript",
-          num: "12",
-          ex: [
-            {
-              t: "setTimeout & setInterval",
-              d: "Run code after delay, and run repeatedly.",
-              e: "// Once after 2 seconds\nsetTimeout(() => console.log('Hi!'), 2000);\n\n// Every 1 second\nconst id = setInterval(() => console.log('Tick'), 1000);\n\n// Stop the interval after 5 seconds\nsetTimeout(() => clearInterval(id), 5000);",
-              h: "clearInterval/clearTimeout cancel scheduled functions.",
-              diff: "easy",
-              topic: "async",
-            },
-            {
-              t: "Promises",
-              d: "Create a basic Promise that resolves or rejects.",
-              e: "const p = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    if(Math.random() > 0.5){\n      resolve('Success!');\n    } else {\n      reject('Failed!');\n    }\n  }, 1000);\n});\n\np.then(result => console.log(result))\n .catch(err => console.log(err));",
-              h: ".then() runs on success, .catch() on failure.",
-              diff: "medium",
-              topic: "async",
-            },
-            {
-              t: "async / await",
-              d: "Rewrite Promise chains using async/await for cleaner code.",
-              e: "async function getData(){\n  try {\n    const res = await fetch('https://api.github.com/users/octocat');\n    const data = await res.json();\n    console.log(data.name);\n  } catch (err) {\n    console.log('Error:', err);\n  }\n}\ngetData();",
-              h: "async makes function return a Promise. await waits for Promise.",
-              diff: "hard",
-              topic: "async",
-            },
-            {
-              t: "fetch GET",
-              d: "Fetch data from an API and display it.",
-              e: "async function getUser(){\n  const res = await fetch('https://api.github.com/users/octocat');\n  if(!res.ok) throw new Error('Not found');\n  const user = await res.json();\n  console.log(user.name, user.bio);\n}\ngetUser();",
-              h: "Always check res.ok before parsing JSON.",
-              diff: "medium",
-              topic: "async",
-            },
-            {
-              t: "fetch POST",
-              d: "Send data to an API with POST request.",
-              e: "async function sendData(){\n  const res = await fetch('/api/notes', {\n    method: 'POST',\n    headers: {'Content-Type': 'application/json'},\n    body: JSON.stringify({title: 'Hi', body: 'Hello'})\n  });\n  const data = await res.json();\n  console.log(data);\n}",
-              h: "POST needs method, headers, and body (stringified JSON).",
-              diff: "hard",
-              topic: "async",
-            },
-            {
-              t: "Promise.all",
-              d: "Run multiple promises in parallel and wait for all to finish.",
-              e: "async function multipleRequests(){\n  const [user, repos] = await Promise.all([\n    fetch('/api/user').then(r => r.json()),\n    fetch('/api/repos').then(r => r.json())\n  ]);\n  console.log(user, repos);\n}",
-              h: "Promise.all runs them in parallel — faster than sequential.",
-              diff: "hard",
-              topic: "async",
-            },
-          ],
-        },
-        {
-          title: "localStorage & JSON",
-          num: "13",
-          ex: [
-            {
-              t: "localStorage Basics",
-              d: "Save, get, remove, and clear items in localStorage.",
-              e: "localStorage.setItem('name', 'Kaleab');\nconst name = localStorage.getItem('name');\nlocalStorage.removeItem('name');\nlocalStorage.clear();",
-              h: "localStorage only stores strings. Persists across browser sessions.",
-              diff: "easy",
-              topic: "storage",
-            },
-            {
-              t: "Save Objects",
-              d: "Save an object/array to localStorage using JSON.",
-              e: "const user = {name:'Kaleab', age:20};\nlocalStorage.setItem('user', JSON.stringify(user));\n\n// Get back as object:\nconst saved = JSON.parse(localStorage.getItem('user'));\nconsole.log(saved.name);",
-              h: "JSON.stringify to save. JSON.parse to read back as object.",
-              diff: "medium",
-              topic: "storage",
-            },
-            {
-              t: "Load with Default",
-              d: "Load todos from localStorage, or use empty array if none exist.",
-              e: "const todos = JSON.parse(localStorage.getItem('todos')) || [];\nconsole.log(todos);\n\n// Add and save:\ntodos.push('Buy milk');\nlocalStorage.setItem('todos', JSON.stringify(todos));",
-              h: "|| [] provides default value when key doesn't exist.",
-              diff: "medium",
-              topic: "storage",
-            },
-          ],
-        },
-        {
-          title: "Error Handling",
-          num: "14",
-          ex: [
-            {
-              t: "try / catch / finally",
-              d: "Handle errors gracefully with try/catch. Use finally for cleanup.",
-              e: "try {\n  let x = JSON.parse('not valid json');\n} catch (err) {\n  console.log('Error:', err.message);\n} finally {\n  console.log('Always runs');\n}",
-              h: "finally runs whether or not an error occurred.",
-              diff: "medium",
-              topic: "errors",
-            },
-            {
-              t: "Throw Custom Errors",
-              d: "Throw your own errors and create custom error types.",
-              e: "function divide(a, b){\n  if(b === 0) throw new Error('Cannot divide by zero');\n  return a / b;\n}\n\ntry {\n  divide(10, 0);\n} catch(err) {\n  console.log(err.message);\n}",
-              h: "Use throw new Error('message') to create errors.",
-              diff: "medium",
-              topic: "errors",
-            },
-          ],
-        },
-        {
-          title: "Modern ES6+ Features",
-          num: "15",
-          ex: [
-            {
-              t: "Destructuring",
-              d: "Destructure arrays, objects, with rest and defaults.",
-              e: "// Arrays\nlet [a, b, ...rest] = [1, 2, 3, 4, 5];\n\n// Objects\nlet {name, age = 18} = {name: 'Kaleab'};\n\n// Function params\nfunction greet({name, age}){\n  return `${name} is ${age}`;\n}",
-              h: "Destructuring extracts values into variables in one step.",
-              diff: "medium",
-              topic: "ES6",
-            },
-            {
-              t: "Spread & Rest",
-              d: "Use ... to spread arrays/objects and collect rest parameters.",
-              e: "// Spread arrays\nlet arr = [...[1,2,3], 4, 5];\n\n// Spread objects\nlet obj = {...{a:1}, b:2};\n\n// Spread in function calls\nMath.max(...[1, 2, 3]);\n\n// Rest in destructuring\nlet [first, ...rest] = [1, 2, 3, 4];",
-              h: "...arr expands. ...rest collects.",
-              diff: "medium",
-              topic: "ES6",
-            },
-            {
-              t: "Map & Set",
-              d: "Use Map (key-value) and Set (unique values).",
-              e: "// Map\nconst map = new Map();\nmap.set('name', 'Kaleab');\nmap.set('age', 20);\nmap.get('name');\nmap.size;\n\n// Set\nconst set = new Set([1, 2, 2, 3, 3, 4]);\nconsole.log([...set]); // [1, 2, 3, 4]",
-              h: "Map > object when keys aren't strings. Set holds only unique values.",
-              diff: "hard",
-              topic: "ES6",
-            },
-          ],
-        },
-        {
-          title: "Classes & OOP",
-          num: "16",
-          ex: [
-            {
-              t: "Create a Class",
-              d: "Create a Person class with constructor and methods.",
-              e: "class Person {\n  constructor(name, age){\n    this.name = name;\n    this.age = age;\n  }\n  greet(){\n    return `Hi, I'm ${this.name}`;\n  }\n}\n\nconst p = new Person('Kaleab', 20);\nconsole.log(p.greet());",
-              h: "new ClassName() creates an instance. Use this inside methods.",
-              diff: "medium",
-              topic: "OOP",
-            },
-            {
-              t: "Inheritance",
-              d: "Create a Student class that extends Person.",
-              e: "class Person {\n  constructor(name){ this.name = name; }\n}\n\nclass Student extends Person {\n  constructor(name, school){\n    super(name); // call parent constructor\n    this.school = school;\n  }\n}\n\nconst s = new Student('Kaleab', 'AAU');",
-              h: "extends inherits. super() calls parent constructor.",
-              diff: "hard",
-              topic: "OOP",
-            },
-            {
-              t: "Static & Private",
-              d: "Use static methods and private fields (#).",
-              e: "class Counter {\n  #count = 0; // private field\n  \n  increment(){ this.#count++; }\n  get value(){ return this.#count; }\n  \n  static create(){\n    return new Counter();\n  }\n}\n\nconst c = Counter.create(); // static\nc.increment();\nconsole.log(c.value);",
-              h: "# = private (only accessible inside class). static = no instance needed.",
-              diff: "hard",
-              topic: "OOP",
-            },
-          ],
-        },
-        {
-          title: "Algorithms & Logic",
-          num: "17",
-          ex: [
-            {
-              t: "Check Prime Number",
-              d: "Write function that checks if a number is prime.",
-              e: "function isPrime(n){\n  if(n < 2) return false;\n  for(let i = 2; i <= Math.sqrt(n); i++){\n    if(n % i === 0) return false;\n  }\n  return true;\n}\nconsole.log(isPrime(17)); // true",
-              h: "Only check divisors up to sqrt(n) — optimization.",
-              diff: "medium",
-              topic: "algorithms",
-            },
-            {
-              t: "Fibonacci",
-              d: "Generate first N Fibonacci numbers.",
-              e: "function fib(n){\n  let a = 0, b = 1;\n  const result = [];\n  for(let i = 0; i < n; i++){\n    result.push(a);\n    [a, b] = [b, a + b];\n  }\n  return result;\n}\nconsole.log(fib(10));",
-              h: "Each number = sum of previous two.",
-              diff: "medium",
-              topic: "algorithms",
-            },
-            {
-              t: "Anagram Check",
-              d: "Check if two strings are anagrams (same letters, different order).",
-              e: "function isAnagram(a, b){\n  const norm = s => s.toLowerCase().split('').sort().join('');\n  return norm(a) === norm(b);\n}\nconsole.log(isAnagram('listen', 'silent')); // true",
-              h: "Sort both strings — if equal, they're anagrams.",
-              diff: "medium",
-              topic: "algorithms",
-            },
-            {
-              t: "Two Sum Problem",
-              d: "Find two numbers in array that sum to target.",
-              e: "function twoSum(arr, target){\n  const map = new Map();\n  for(let i = 0; i < arr.length; i++){\n    const need = target - arr[i];\n    if(map.has(need)) return [map.get(need), i];\n    map.set(arr[i], i);\n  }\n}\nconsole.log(twoSum([2,7,11,15], 9)); // [0,1]",
-              h: "Use a Map to track seen numbers — O(n) time.",
-              diff: "hard",
-              topic: "algorithms",
-            },
-            {
-              t: "Bubble Sort",
-              d: "Implement bubble sort algorithm.",
-              e: "function bubbleSort(arr){\n  const a = [...arr];\n  for(let i = 0; i < a.length; i++){\n    for(let j = 0; j < a.length - i - 1; j++){\n      if(a[j] > a[j+1]){\n        [a[j], a[j+1]] = [a[j+1], a[j]];\n      }\n    }\n  }\n  return a;\n}",
-              h: "Repeatedly swap adjacent elements if out of order.",
-              diff: "hard",
-              topic: "algorithms",
-            },
-            {
-              t: "Reverse Linked List Concept",
-              d: "Reverse a string and array recursively.",
-              e: "function reverseStr(s){\n  if(s.length <= 1) return s;\n  return reverseStr(s.slice(1)) + s[0];\n}\nconsole.log(reverseStr('hello')); // 'olleh'",
-              h: "Take first char, reverse rest, put first at the end.",
-              diff: "hard",
-              topic: "algorithms",
-            },
-          ],
-        },
-        {
-          title: "Mini Projects",
-          num: "18",
-          ex: [
-            {
-              t: "Counter App",
-              d: "Build a counter with + and - buttons that updates the display.",
-              e: "let count = 0;\nconst display = document.getElementById('display');\nconst plus = document.getElementById('plus');\nconst minus = document.getElementById('minus');\n\nplus.onclick = () => { count++; display.textContent = count; };\nminus.onclick = () => { count--; display.textContent = count; };",
-              h: "Store count in variable, update DOM on each click.",
-              diff: "medium",
-              topic: "project",
-            },
-            {
-              t: "Random Color Generator",
-              d: "Change background to random color when button is clicked.",
-              e: "function randomColor(){\n  return '#' + Math.floor(Math.random()*16777215)\n    .toString(16).padStart(6, '0');\n}\n\ndocument.querySelector('button').onclick = () => {\n  document.body.style.background = randomColor();\n};",
-              h: "Generate random hex (0-FFFFFF), pad with zeros if short.",
-              diff: "medium",
-              topic: "project",
-            },
-            {
-              t: "Todo List",
-              d: "Build todo app with add, delete, and localStorage persistence.",
-              e: "let todos = JSON.parse(localStorage.getItem('todos')) || [];\n\nfunction render(){\n  list.innerHTML = '';\n  todos.forEach((todo, i) => {\n    const li = document.createElement('li');\n    li.textContent = todo;\n    li.onclick = () => { todos.splice(i,1); save(); };\n    list.appendChild(li);\n  });\n}\n\nfunction save(){\n  localStorage.setItem('todos', JSON.stringify(todos));\n  render();\n}\n\naddBtn.onclick = () => {\n  todos.push(input.value);\n  input.value = '';\n  save();\n};\n\nrender();",
-              h: "Load on start, save on every change. Render after save.",
-              diff: "hard",
-              topic: "project",
-            },
-            {
-              t: "Calculator",
-              d: "Build a working calculator with +, -, *, / buttons.",
-              e: "let current = '';\n\nfunction press(key){\n  if(key === '='){\n    try { current = eval(current).toString(); }\n    catch { current = 'Error'; }\n  } else if(key === 'C'){\n    current = '';\n  } else {\n    current += key;\n  }\n  display.textContent = current;\n}",
-              h: "Build string of expression, evaluate on =. Use try/catch.",
-              diff: "hard",
-              topic: "project",
-            },
-            {
-              t: "Digital Clock",
-              d: "Display current time updated every second.",
-              e: "function updateClock(){\n  const now = new Date();\n  const time = now.toLocaleTimeString();\n  document.getElementById('clock').textContent = time;\n}\n\nsetInterval(updateClock, 1000);\nupdateClock(); // Initial call",
-              h: "Use setInterval(fn, 1000) for every second.",
-              diff: "medium",
-              topic: "project",
-            },
-            {
-              t: "Character Counter",
-              d: "Show how many chars left as user types (limit 140).",
-              e: "const input = document.getElementById('input');\nconst counter = document.getElementById('counter');\nconst MAX = 140;\n\ninput.addEventListener('input', () => {\n  const left = MAX - input.value.length;\n  counter.textContent = left;\n  counter.style.color = left < 20 ? 'red' : 'gray';\n});",
-              h: "Listen to input event, subtract length from max.",
-              diff: "medium",
-              topic: "project",
-            },
-            {
-              t: "Quiz App",
-              d: "Build a 3-question quiz with score tracking.",
-              e: "const questions = [\n  { q: '2 + 2 = ?', a: '4' },\n  { q: 'Capital of France?', a: 'Paris' },\n  { q: 'JS founder?', a: 'Brendan' }\n];\n\nlet score = 0, current = 0;\n\nfunction next(){\n  if(current >= questions.length){\n    alert(`Score: ${score}/${questions.length}`);\n    return;\n  }\n  const ans = prompt(questions[current].q);\n  if(ans === questions[current].a) score++;\n  current++;\n  next();\n}\nnext();",
-              h: "Array of questions, loop through, count correct answers.",
-              diff: "hard",
-              topic: "project",
-            },
-            {
-              t: "Password Generator",
-              d: "Generate a random password of given length.",
-              e: "function generate(length = 12){\n  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +\n                'abcdefghijklmnopqrstuvwxyz' +\n                '0123456789!@#$%';\n  let pw = '';\n  for(let i = 0; i < length; i++){\n    pw += chars[Math.floor(Math.random() * chars.length)];\n  }\n  return pw;\n}\nconsole.log(generate(16));",
-              h: "Pick random chars from allowed set, build string.",
-              diff: "medium",
-              topic: "project",
-            },
-            {
-              t: "Temperature Converter",
-              d: "Convert between Celsius and Fahrenheit.",
-              e: "function cToF(c){ return c * 9/5 + 32; }\nfunction fToC(f){ return (f - 32) * 5/9; }\n\nconsole.log(cToF(0));   // 32\nconsole.log(fToC(100)); // 37.78",
-              h: "C to F: × 9/5 + 32. F to C: − 32, × 5/9.",
-              diff: "easy",
-              topic: "project",
-            },
-            {
-              t: "GitHub Profile Finder",
-              d: "Type a username and fetch their GitHub profile.",
-              e: "async function getProfile(username){\n  const res = await fetch(`https://api.github.com/users/${username}`);\n  if(!res.ok) return alert('Not found');\n  const user = await res.json();\n  document.getElementById('name').textContent = user.name;\n  document.getElementById('bio').textContent = user.bio;\n  document.getElementById('avatar').src = user.avatar_url;\n}\n\nbtn.onclick = () => getProfile(input.value);",
-              h: "Use fetch with username in URL. Update DOM with response.",
-              diff: "hard",
-              topic: "project",
-            },
-          ],
-        },
-      ];
+    <!-- Notes -->
+    <div class="form-row">
+      <label class="form-label">Notes (optional)</label>
+      <textarea class="form-textarea" id="f-notes" placeholder="e.g. CH Version, Dual SIM, battery health 94%…"></textarea>
+    </div>
 
-      let completed = JSON.parse(
-        localStorage.getItem("js100-completed") || "[]",
-      );
-      let currentFilter = "all",
-        currentSearch = "",
-        currentId = null;
+    <button class="submit-btn" onclick="addProduct()">🚀 Publish Product</button>
+  </div>
+</div>
 
-      function getId(ch, ex) {
-        return `${ch}-${ex}`;
-      }
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span class="toast-text">Product published successfully!</span>
+</div>
 
-      function updateProgress() {
-        const total = CH.reduce((s, c) => s + c.ex.length, 0);
-        const done = completed.length;
-        const pct = Math.round((done / total) * 100);
-        document.getElementById("hd").textContent = done;
-        document.getElementById("hpct").textContent = pct + "%";
-        document.getElementById("pdone").textContent = done;
-        document.getElementById("pfill").style.width = pct + "%";
-      }
+<script>
+// ── DATA ── default products
+let products = [
+  {id:1,cat:'pro16',name:'MacBook Pro 16" M4 Pro 48GB 512GB',usd:'$2,355',cny:'¥16,000 CNY',grade:'A',img:null,q:'macbook pro 16 m4 pro 48gb 512gb'},
+  {id:2,cat:'pro16',name:'MacBook Pro 16" M1 Max 64GB 4TB',usd:'$2,070',cny:'¥14,100 CNY',grade:'A',img:null,q:'macbook pro 16 m1 max 64gb 4tb'},
+  {id:3,cat:'pro16',name:'MacBook Pro 16" M3 Pro 18GB 512GB',usd:'$1,350',cny:'¥9,200 CNY',grade:'B',img:null,q:'macbook pro 16 m3 pro 18gb 512gb'},
+  {id:4,cat:'pro14',name:'MacBook Pro 14" M4 Max 36GB 1TB',usd:'$2,215',cny:'¥15,100 CNY',grade:'A',img:null,q:'macbook pro 14 m4 max 36gb 1tb'},
+  {id:5,cat:'pro14',name:'MacBook Pro 14" M5 16GB 512GB',usd:'$1,400',cny:'¥9,500 CNY',grade:'A',img:null,q:'macbook pro 14 m5 16gb 512gb'},
+  {id:6,cat:'air15',name:'MacBook Air 15" M5 16GB 1TB',usd:'$1,365',cny:'CNY on request',grade:'A',img:null,q:'macbook air 15 m5 16gb 1tb'},
+  {id:7,cat:'air15',name:'MacBook Air 15" M2 16GB 1TB',usd:'$895',cny:'CNY on request',grade:'B',img:null,q:'macbook air 15 m2 16gb 1tb'},
+  {id:8,cat:'air13',name:'MacBook Air 13" M1 16GB 512GB',usd:'$650',cny:'¥4,500 CNY',grade:'A',img:null,q:'macbook air 13 m1 16gb 512gb'},
+  {id:9,cat:'neo13',name:'MacBook Neo 13" A18 Pro 8GB 512GB',usd:'$615',cny:'¥4,200 CNY',grade:'A',img:null,q:'macbook neo 13 a18 pro 8gb 512gb'},
+  {id:10,cat:'neo13',name:'MacBook Neo 13" A18 Pro 8GB 256GB',usd:'$545',cny:'¥3,700 CNY',grade:'A',img:null,q:'macbook neo 13 a18 pro 8gb 256gb'},
+  {id:11,cat:'pro13',name:'MacBook Pro 13" M1 8GB 256GB',usd:'$485',cny:'CNY on request',grade:'B',img:null,q:'macbook pro 13 m1 8gb 256gb'},
+  {id:12,cat:'iphone',name:'iPhone 16 Pro Max — CH Dual SIM',usd:'Contact',cny:'Price on request',grade:'A',img:null,q:'iphone 16 pro max ch dual sim'},
+  {id:13,cat:'iphone',name:'iPhone 16 Pro — CH Dual SIM',usd:'Contact',cny:'Price on request',grade:'A',img:null,q:'iphone 16 pro ch dual sim'},
+  {id:14,cat:'iphone',name:'iPhone 15 Pro Max — CH Dual SIM',usd:'Contact',cny:'Price on request',grade:'B',img:null,q:'iphone 15 pro max ch'},
+  {id:15,cat:'iphone',name:'iPhone 12 Pro 256GB — CH Version',usd:'Contact',cny:'Price on request',grade:'B',img:null,q:'iphone 12 pro 256 ch'},
+];
 
-      function renderAll() {
-        const main = document.getElementById("main");
-        main.innerHTML = "";
-        let anyVisible = false;
+const catIcons={pro16:'💻',pro14:'💻',pro13:'💻',air15:'💨',air13:'💨',neo13:'💻',iphone:'📱'};
+const catLabels={pro16:'PRO 16"',pro14:'PRO 14"',pro13:'PRO 13"',air15:'AIR 15"',air13:'AIR 13"',neo13:'NEO 13"',iphone:'iPHONE'};
 
-        CH.forEach((ch, ci) => {
-          let visibleCount = 0;
-          const items = [];
+let cat='all', q='', uploadedImgs=[];
 
-          ch.ex.forEach((ex, ei) => {
-            const id = getId(ci, ei);
-            const isDone = completed.includes(id);
-            const matchFilter =
-              currentFilter === "all" ||
-              (currentFilter === "easy" && ex.diff === "easy") ||
-              (currentFilter === "medium" && ex.diff === "medium") ||
-              (currentFilter === "hard" && ex.diff === "hard") ||
-              (currentFilter === "done" && isDone) ||
-              (currentFilter === "todo" && !isDone);
-            const matchSearch =
-              currentSearch === "" ||
-              ex.t.toLowerCase().includes(currentSearch) ||
-              ex.d.toLowerCase().includes(currentSearch) ||
-              ex.topic.toLowerCase().includes(currentSearch);
-
-            if (matchFilter && matchSearch) {
-              visibleCount++;
-              anyVisible = true;
-              const globalNum =
-                CH.slice(0, ci).reduce((s, c) => s + c.ex.length, 0) + ei + 1;
-              items.push({ ex, id, isDone, globalNum, ci, ei });
-            }
-          });
-
-          if (visibleCount === 0) return;
-
-          const totalDone = ch.ex.filter((_, i) =>
-            completed.includes(getId(ci, i)),
-          ).length;
-
-          const chDiv = document.createElement("div");
-          chDiv.className = "chapter";
-          chDiv.innerHTML = `
-      <div class="ch-header">
-        <div class="ch-num">CH ${ch.num}</div>
-        <div class="ch-title">${ch.title}</div>
-        <div class="ch-count">${totalDone}/${ch.ex.length} done</div>
+function makeCard(p){
+  const gradeClass = p.grade==='A'?'ga':p.grade==='B'?'gb':'gc';
+  const imgHtml = p.img
+    ? `<img src="${p.img}" alt="${p.name}"/>`
+    : `<div class="cimg-placeholder">${catIcons[p.cat]||'💻'}</div>`;
+  return `<div class="card" data-id="${p.id}" data-cat="${p.cat}" data-q="${p.q}">
+    <div class="cimg">${imgHtml}<div class="ctag">${catLabels[p.cat]||p.cat.toUpperCase()}</div><div class="fav" onclick="toggleFav(event,this)">🤍</div></div>
+    <div class="cbody">
+      <div class="cname">${p.name}</div>
+      <div class="cfoot">
+        <div><div class="pusd">${p.usd}</div><div class="pcny">${p.cny}</div></div>
+        <span class="gbadge ${gradeClass}">Grade ${p.grade}</span>
       </div>
-      <div class="grid" id="grid-${ci}"></div>
-    `;
-          main.appendChild(chDiv);
-          const grid = document.getElementById(`grid-${ci}`);
+    </div>
+  </div>`;
+}
 
-          items.forEach(({ ex, id, isDone, globalNum, ci, ei }) => {
-            const card = document.createElement("div");
-            card.className = `card ${isDone ? "done" : ""}`;
-            card.innerHTML = `
-        <div class="ctop">
-          <div class="cnum">#${String(globalNum).padStart(3, "0")}</div>
-          <div class="diff d${ex.diff[0]}">${ex.diff}</div>
-        </div>
-        <div class="ctitle">${ex.t}</div>
-        <div class="cdesc">${ex.d}</div>
-        <div class="cbot">
-          <div class="ctopic">${ex.topic}</div>
-          <div class="ccheck">${isDone ? "✓" : ""}</div>
-        </div>
-      `;
-            card.onclick = () => openModal(ci, ei, globalNum);
-            grid.appendChild(card);
-          });
-        });
+function render(){
+  const grid = document.getElementById('pgrid');
+  let visible=0, html='';
+  products.forEach(p=>{
+    const catOk = cat==='all' || (cat==='macbook'&&p.cat!=='iphone') || p.cat===cat;
+    const qOk = !q || p.q.includes(q);
+    if(catOk&&qOk){html+=makeCard(p);visible++;}
+  });
+  grid.innerHTML=html;
+  document.getElementById('no-res').style.display=visible===0?'block':'none';
+  document.getElementById('count-label').textContent=visible>0?`(${visible} listings)`:'';
+}
 
-        if (!anyVisible) {
-          main.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">🔍</div>
-        <h3>No exercises found</h3>
-        <p>Try a different filter or search term.</p>
-      </div>
-    `;
-        }
+function setCat(c,btn){
+  cat=c;
+  document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else document.querySelector(`.cpill[data-cat="${c}"]`)?.classList.add('active');
+  ['tab-all','tab-mac','tab-iph'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  if(c==='all') document.getElementById('tab-all').classList.add('active');
+  else if(c==='iphone') document.getElementById('tab-iph').classList.add('active');
+  else document.getElementById('tab-mac').classList.add('active');
+  render();
+}
 
-        updateProgress();
-      }
+function doSearch(v){q=v.toLowerCase();render();}
 
-      function openModal(ci, ei, num) {
-        const ex = CH[ci].ex[ei];
-        const id = getId(ci, ei);
-        currentId = id;
-        document.getElementById("mnum").textContent =
-          `Exercise #${String(num).padStart(3, "0")} — ${CH[ci].title}`;
-        document.getElementById("mtitle").textContent = ex.t;
-        document.getElementById("mdesc").textContent = ex.d;
-        document.getElementById("mcode").textContent = ex.e;
-        document.getElementById("mhint").textContent = "💡 " + ex.h;
-        const btn = document.getElementById("mdone");
-        const isDone = completed.includes(id);
-        btn.textContent = isDone ? "✓ Already Done!" : "✓ Mark as Done";
-        btn.style.opacity = isDone ? "0.5" : "1";
-        document.getElementById("overlay").classList.add("open");
-      }
+function goMain(){
+  document.getElementById('mview').classList.remove('hide');
+  document.getElementById('cview').classList.remove('show');
+}
+function goContact(){
+  document.getElementById('mview').classList.add('hide');
+  document.getElementById('cview').classList.add('show');
+  ['tab-all','tab-mac','tab-iph','tab-con'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
+  document.getElementById('tab-con').classList.add('active');
+}
 
-      function closeModal() {
-        document.getElementById("overlay").classList.remove("open");
-        currentId = null;
-      }
+function toggleFav(e,el){
+  e.preventDefault();e.stopPropagation();
+  el.textContent=el.textContent==='🤍'?'❤️':'🤍';
+}
 
-      function closeOut(e) {
-        if (e.target === document.getElementById("overlay")) closeModal();
-      }
+// ── ADMIN ──
+function openAdmin(){document.getElementById('admin-overlay').classList.add('show');document.body.style.overflow='hidden';}
+function closeAdmin(){document.getElementById('admin-overlay').classList.remove('show');document.body.style.overflow='';resetForm();}
+function handleOverlayClick(e){if(e.target===document.getElementById('admin-overlay'))closeAdmin();}
 
-      function markDone() {
-        if (!currentId) return;
-        if (!completed.includes(currentId)) {
-          completed.push(currentId);
-          localStorage.setItem("js100-completed", JSON.stringify(completed));
-        }
-        closeModal();
-        renderAll();
-      }
+function handleFiles(files){
+  const grid=document.getElementById('preview-grid');
+  grid.style.display='grid';
+  Array.from(files).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      uploadedImgs.push(e.target.result);
+      const div=document.createElement('div');div.className='preview-item';
+      div.innerHTML=`<img src="${e.target.result}"/><button class="preview-remove" onclick="removeImg(this,${uploadedImgs.length-1})">✕</button>`;
+      grid.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
-      function setFilter(f, btn) {
-        currentFilter = f;
-        document
-          .querySelectorAll(".fbtn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderAll();
-      }
+function removeImg(btn,idx){
+  uploadedImgs.splice(idx,1);
+  btn.parentElement.remove();
+  if(document.getElementById('preview-grid').children.length===0)
+    document.getElementById('preview-grid').style.display='none';
+}
 
-      function setSearch(v) {
-        currentSearch = v.toLowerCase();
-        renderAll();
-      }
+function resetForm(){
+  ['f-name','f-usd','f-cny','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-cat').selectedIndex=0;
+  document.getElementById('f-grade').selectedIndex=0;
+  document.getElementById('preview-grid').innerHTML='';
+  document.getElementById('preview-grid').style.display='none';
+  uploadedImgs=[];
+}
 
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
+function addProduct(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){document.getElementById('f-name').focus();return;}
+  const cat_val=document.getElementById('f-cat').value;
+  const grade=document.getElementById('f-grade').value;
+  const usd=document.getElementById('f-usd').value.trim();
+  const cny=document.getElementById('f-cny').value.trim();
+  const newP={
+    id:Date.now(),cat:cat_val,
+    name,
+    usd:usd?('$'+Number(usd.replace(/\D/g,'')).toLocaleString()):' Contact',
+    cny:cny?('¥'+Number(cny.replace(/\D/g,'')).toLocaleString()+' CNY'):'CNY on request',
+    grade,
+    img:uploadedImgs[0]||null,
+    q:name.toLowerCase()
+  };
+  products.unshift(newP);
+  closeAdmin();
+  setCat('all',document.querySelector('.cpill[data-cat="all"]'));
+  showToast();
+}
 
-      renderAll();
-    </script>
-  </body>
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// drag and drop
+const zone=document.getElementById('upload-zone');
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag');handleFiles(e.dataTransfer.files);});
+
+render();
+</script>
+</body>
 </html>
